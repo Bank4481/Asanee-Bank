@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>อัสนี สงวนปุญญศิริ - แฟ้มสะสมผลงานส่วนตัว</title>
+    <title>อัสนี สงวนปุญญศิริ - แฟ้มสะสมผลงานระดับพรีเมียม</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Fonts: Prompt -->
@@ -14,7 +14,6 @@
     <script src="https://unpkg.com/lucide@latest"></script>
     
     <script>
-        // กำหนดการทำงานของ Tailwind สำหรับ Theme ต่างๆ แบบ Dynamic
         tailwind.config = {
             darkMode: 'class',
             theme: {
@@ -128,18 +127,18 @@
         
         /* สไตล์เสริมสำหรับการแก้ไขข้อมูล */
         .editable-active {
-            outline: 2px dashed var(--primary);
+            outline: 2px dashed #f59e0b;
             outline-offset: 4px;
             cursor: pointer;
             position: relative;
-            background-color: rgba(255, 255, 255, 0.05);
+            background-color: rgba(245, 158, 11, 0.05);
         }
         .editable-active::after {
             content: "✎ แก้ไขได้";
             position: absolute;
             top: -24px;
             right: 0;
-            background: var(--primary);
+            background: #f59e0b;
             color: white;
             font-size: 10px;
             padding: 2px 6px;
@@ -156,10 +155,10 @@
     <div id="edit-banner" class="hidden bg-amber-500 text-white text-center py-2 px-4 sticky top-0 z-50 shadow-md flex justify-between items-center transition-all duration-300">
         <div class="flex items-center gap-2 mx-auto">
             <i data-lucide="edit-3" class="w-5 h-5 animate-pulse"></i>
-            <span class="font-medium text-sm md:text-base">กำลังอยู่ใน "โหมดแก้ไขข้อมูล" สามารถคลิกข้อความใดก็ได้เพื่อพิมพ์แก้ไขสด และบันทึกผลได้ทันที</span>
+            <span class="font-medium text-xs md:text-sm">กำลังอยู่ใน "โหมดแก้ไขขั้นสูง" สามารถคลิกข้อความใดเพื่อพิมพ์ หรืออัปโหลดรูปภาพ/วิดีโอ/แนบลิงก์ทุกส่วนได้อิสระ</span>
         </div>
-        <button onclick="deactivateEditMode()" class="bg-amber-700 hover:bg-amber-800 text-white text-xs px-3 py-1.5 rounded-md font-semibold transition">
-            ออกจากโหมดแก้ไข
+        <button onclick="deactivateEditMode()" class="bg-amber-700 hover:bg-amber-800 text-white text-xs px-3 py-1.5 rounded-md font-semibold transition flex-shrink-0">
+            เสร็จสิ้นและบันทึก
         </button>
     </div>
 
@@ -174,7 +173,7 @@
                     </div>
                     <div>
                         <span class="font-bold text-lg text-slate-900 dark:text-white block leading-tight tracking-tight" id="nav-title">อัสนี สงวนปุญญศิริ</span>
-                        <span class="text-xs text-slate-500 dark:text-slate-400">Portfolio & Profile</span>
+                        <span class="text-xs text-slate-500 dark:text-slate-400">พอร์ตโฟลิโอเก็บข้อมูล & สื่อผสม</span>
                     </div>
                 </div>
 
@@ -312,19 +311,25 @@
                     <div class="relative group">
                         <!-- เอฟเฟกต์สีพื้นหลังหมุน -->
                         <div class="absolute -inset-1.5 bg-gradient-to-r from-theme-primary to-emerald-500 rounded-2xl blur opacity-30 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
-                        <div class="relative bg-white dark:bg-slate-800 p-3 rounded-2xl shadow-premium">
-                            <!-- แสดงภาพโปรไฟล์จาก Google Drive ลิงก์ที่ระบุ -->
-                            <img id="profile-img" 
-                                 src="https://lh3.googleusercontent.com/d/1ZBZ5HGKv55aZeAZHi8EPz-1IgGwlndGD" 
-                                 alt="นายอัสนี สงวนปุญญศิริ" 
-                                 class="w-72 h-96 sm:w-80 sm:h-[420px] object-cover rounded-xl shadow-inner border border-slate-100 dark:border-slate-700"
-                                 onerror="handleImageLoadError(this)">
+                        <div class="relative bg-white dark:bg-slate-800 p-3 rounded-2xl shadow-premium w-72 h-96 sm:w-80 sm:h-[420px] overflow-hidden flex items-center justify-center">
+                            <!-- บล็อกสื่อผสมอัจฉริยะ (รูปภาพ หรือ วิดีโอ) -->
+                            <div id="profile-media-container" class="w-full h-full rounded-xl overflow-hidden shadow-inner border border-slate-100 dark:border-slate-700">
+                                <!-- โหลดผ่าน JS -->
+                            </div>
                             
-                            <!-- ตัวเลือกในการแก้ไข URL ภาพหากใช้งานโหมดแก้ไข -->
-                            <div id="image-edit-overlay" class="hidden absolute inset-0 bg-black/60 rounded-xl flex flex-col items-center justify-center p-4 text-center">
-                                <p class="text-white text-xs mb-2">วางลิงก์รูปภาพใหม่ที่นี่เพื่อเปลี่ยนรูป</p>
-                                <input type="text" id="input-image-url" onchange="updateProfileImage(this.value)" placeholder="วาง URL ภาพตรงนี้..." class="w-full text-xs px-2 py-1.5 rounded border border-slate-600 bg-slate-900 text-white focus:outline-none focus:ring-1 focus:ring-amber-500">
-                                <button onclick="resetToDefaultImage()" class="mt-2 text-[10px] text-amber-400 underline hover:text-amber-300">ใช้รูปเริ่มต้น</button>
+                            <!-- ตัวเลือกในการแก้ไขอัปโหลดสื่อ -->
+                            <div id="image-edit-overlay" class="hidden absolute inset-0 bg-black/80 rounded-xl flex flex-col items-center justify-center p-4 text-center z-20 space-y-2">
+                                <i data-lucide="image-plus" class="w-8 h-8 text-amber-500 animate-bounce"></i>
+                                <p class="text-white text-xs font-bold">อัปเดตไฟล์สื่อหรือลิงก์ผู้พัฒนา</p>
+                                
+                                <label class="w-full py-1.5 bg-amber-500 hover:bg-amber-600 text-white rounded text-[10px] font-bold cursor-pointer transition">
+                                    เลือกไฟล์รูป/วิดีโอจากเครื่อง
+                                    <input type="file" id="input-profile-file" accept="image/*,video/*" onchange="uploadProfileMedia(this)" class="hidden">
+                                </label>
+                                
+                                <p class="text-slate-400 text-[10px]">หรือใส่ URL สื่อโดยตรงด้านล่าง</p>
+                                <input type="text" id="input-image-url" onchange="updateProfileImageUrl(this.value)" placeholder="วาง HTTPS ลิงก์รูป/วิดีโอตรงนี้..." class="w-full text-[10px] px-2 py-1.5 rounded border border-slate-600 bg-slate-900 text-white focus:outline-none">
+                                <button onclick="resetToDefaultImage()" class="text-[9px] text-amber-400 underline hover:text-amber-300">ใช้รูปเริ่มต้น</button>
                             </div>
                         </div>
                     </div>
@@ -339,46 +344,12 @@
             <div class="text-center max-w-3xl mx-auto mb-16">
                 <h2 class="text-base font-bold text-theme-primary tracking-wide uppercase">ข้อมูลส่วนบุคคล</h2>
                 <h3 class="mt-2 text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white" id="about-title-ui">ประวัติทั่วไปและการศึกษา</h3>
-                <p class="mt-4 text-lg text-slate-500 dark:text-slate-400">ประวัติการศึกษาปัจจุบันและแหล่งที่อยู่ดั้งเดิมของนายอัสนี สะท้อนถึงความเป็นมาและสถานที่เติบโตของชีวิต</p>
+                <p class="mt-4 text-sm sm:text-base text-slate-500 dark:text-slate-400">ประวัติการศึกษาปัจจุบันและแหล่งที่อยู่ดั้งเดิมของนายอัสนี ที่สามารถเชื่อมโยงวิดีโอ รูปภาพ หรือเว็บไซต์สถาบันได้โดยตรง</p>
             </div>
 
             <!-- กล่องข้อมูลการศึกษาและสถานที่อยู่ -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <!-- มหาวิทยาลัยราชภัฏภูเก็ต -->
-                <div class="bg-slate-50 dark:bg-slate-900 rounded-2xl p-8 border border-slate-100 dark:border-slate-800 hover:shadow-premium hover:-translate-y-1 transition-all duration-300 relative">
-                    <div class="w-12 h-12 rounded-xl bg-theme-light text-theme-primary flex items-center justify-center mb-6">
-                        <i data-lucide="graduation-cap" class="w-6 h-6"></i>
-                    </div>
-                    <span class="text-xs font-semibold text-slate-400 block mb-2">การศึกษาระดับอุดมศึกษา</span>
-                    <h4 id="edu-uni-title" class="text-xl font-bold mb-3 text-slate-900 dark:text-white">มหาวิทยาลัยราชภัฏภูเก็ต</h4>
-                    <p id="edu-uni-desc" class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
-                        ปัจจุบันกำลังศึกษาระดับอุปสมบท/การศึกษาขั้นสูง มุ่งเน้นการเสริมสร้างทักษะและนวัตกรรมใหม่ๆ เพื่อพัฒนาชุมชนและเศรษฐกิจในเขตอันดามัน
-                    </p>
-                </div>
-
-                <!-- โรงเรียนเทศบาลบ้านย่านยาว -->
-                <div class="bg-slate-50 dark:bg-slate-900 rounded-2xl p-8 border border-slate-100 dark:border-slate-800 hover:shadow-premium hover:-translate-y-1 transition-all duration-300">
-                    <div class="w-12 h-12 rounded-xl bg-theme-light text-theme-primary flex items-center justify-center mb-6">
-                        <i data-lucide="book-open" class="w-6 h-6"></i>
-                    </div>
-                    <span class="text-xs font-semibold text-slate-400 block mb-2">การศึกษาขั้นพื้นฐาน</span>
-                    <h4 id="edu-sch-title" class="text-xl font-bold mb-3 text-slate-900 dark:text-white">โรงเรียนเทศบาลบ้านย่านยาว</h4>
-                    <p id="edu-sch-desc" class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
-                        เคยผ่านการศึกษาขั้นพื้นฐานและหล่อหลอมความรู้สำคัญ ณ โรงเรียนท้องถิ่นชั้นนำในอำเภอตะกั่วป่า ซึ่งสร้างระเบียบวินัยและรากฐานวิชาการที่ดีเยี่ยม
-                    </p>
-                </div>
-
-                <!-- ข้อมูลที่อยู่บ้านเกิด -->
-                <div class="bg-slate-50 dark:bg-slate-900 rounded-2xl p-8 border border-slate-100 dark:border-slate-800 hover:shadow-premium hover:-translate-y-1 transition-all duration-300">
-                    <div class="w-12 h-12 rounded-xl bg-theme-light text-theme-primary flex items-center justify-center mb-6">
-                        <i data-lucide="map-pin" class="w-6 h-6"></i>
-                    </div>
-                    <span class="text-xs font-semibold text-slate-400 block mb-2">ภูมิลำเนาเดิม</span>
-                    <h4 id="addr-title" class="text-xl font-bold mb-3 text-slate-900 dark:text-white">ต.บางม่วง อ.ตะกั่วป่า จ.พังงา</h4>
-                    <p id="addr-desc" class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
-                        ตั้งอยู่ในพื้นที่ตำบลบางม่วง แหล่งที่มีธรรมชาติสวยงามของเมืองตะกั่วป่าและชายฝั่งอันดามัน สะท้อนถึงเอกลักษณ์ของความสงบสุขและความเป็นกันเอง
-                    </p>
-                </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8" id="about-cards-container">
+                <!-- แทรกข้อมูลแบบไดนามิกผ่าน JavaScript เพื่อรองรับการอัปโหลดวิดีโอ/รูป/ลิงก์แยกรายกล่อง -->
             </div>
         </div>
     </section>
@@ -430,18 +401,32 @@
     <!-- ส่วนเนื้อหาเพิ่มเติม (Custom Section) -->
     <section id="custom-section" class="py-20 bg-slate-50 dark:bg-slate-900 transition-colors duration-300">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-slate-950 rounded-3xl p-8 md:p-12 shadow-premium border border-slate-100 dark:border-slate-800 relative">
-                <div class="absolute top-8 right-8 hidden" id="custom-section-control">
+            <div class="bg-white dark:bg-slate-950 rounded-3xl p-8 md:p-12 shadow-premium border border-slate-100 dark:border-slate-800 relative overflow-hidden">
+                <div class="absolute top-8 right-8 z-30 hidden" id="custom-section-control">
                     <button onclick="editCustomSectionHeader()" class="px-3 py-1.5 bg-amber-500 hover:bg-amber-600 text-white text-xs font-medium rounded-lg shadow transition">
-                        แก้ไขหัวข้อนี้
+                        แก้ไขส่วนเนื้อหานี้
                     </button>
                 </div>
-                <div class="max-w-3xl">
-                    <h2 class="text-base font-bold text-theme-primary tracking-wide uppercase">เนื้อหาเพิ่มเติม</h2>
-                    <h3 id="custom-section-title" class="mt-2 text-3xl font-extrabold text-slate-900 dark:text-white leading-tight">เป้าหมายสูงสุดในสายงานของอัสนี</h3>
-                    <div id="custom-section-content" class="mt-6 text-slate-600 dark:text-slate-400 space-y-4 text-base leading-relaxed">
-                        <p>ผมมุ่งหวังที่จะนำองค์ความรู้จากมหาวิทยาลัยราชภัฏภูเก็ต รวมถึงความคิดสร้างสรรค์จากบ้านเกิดตะกั่วป่าจังหวัดพังงา มายกระดับเพื่อแก้ไขปัญหาต่างๆ ในพื้นที่ และเพิ่มทักษะด้าน Software Engineering สู่ระดับมืออาชีพในอนาคต</p>
-                        <p>ทุกส่วนของเว็บไซต์นี้สามารถปรับเปลี่ยนและเพิ่มเติมเนื้อหาได้ผ่านหน้าเว็บโดยตรง เพียงกดปุ่มแม่กุญแจเพื่อกรอกรหัสผ่าน Bank4481 ในโหมดนักพัฒนา</p>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                    <div class="lg:col-span-7">
+                        <h2 class="text-base font-bold text-theme-primary tracking-wide uppercase">เนื้อหาเพิ่มเติม</h2>
+                        <h3 id="custom-section-title" class="mt-2 text-2xl md:text-3xl font-extrabold text-slate-900 dark:text-white leading-tight">เป้าหมายสูงสุดในสายงานของอัสนี</h3>
+                        <div id="custom-section-content" class="mt-6 text-slate-600 dark:text-slate-400 space-y-4 text-sm md:text-base leading-relaxed">
+                            <!-- พารากราฟย่อหน้าสร้างโดย JS -->
+                        </div>
+                        
+                        <!-- ปุ่มลิงก์เชื่อมโยงในย่อหน้าพิเศษ -->
+                        <div class="mt-6" id="custom-cta-container">
+                            <!-- เรนเดอร์ลิงก์ผ่าน JS -->
+                        </div>
+                    </div>
+                    
+                    <!-- พื้นที่อัปเดตรูปภาพ/วิดีโอเสริมส่วนตัว -->
+                    <div class="lg:col-span-5 h-64 md:h-80 w-full rounded-2xl overflow-hidden relative border border-slate-100 dark:border-slate-800 bg-slate-100 dark:bg-slate-900">
+                        <div id="custom-media-container" class="w-full h-full">
+                            <!-- ใส่รูป/วิดีโอประกอบโดย JS -->
+                        </div>
                     </div>
                 </div>
             </div>
@@ -454,44 +439,47 @@
             <div class="text-center max-w-3xl mx-auto mb-16">
                 <h2 class="text-base font-bold text-theme-primary tracking-wide uppercase">ช่องทางการติดต่อ</h2>
                 <h3 class="mt-2 text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white">สอบถามหรือร่วมงานกับผม</h3>
-                <p class="mt-4 text-slate-500 dark:text-slate-400 text-sm sm:text-base">สามารถติดต่อเพื่อสอบถามข้อมูลเพิ่มเติม แลกเปลี่ยนข้อมูลวิชาการ หรือหารือเกี่ยวกับโอกาสในการร่วมงาน</p>
+                <p class="mt-4 text-slate-500 dark:text-slate-400 text-sm sm:text-base">ข้อมูลผู้ติดต่อสามารถปรับเปลี่ยนและคลิกลิงก์เพื่อส่งเมลหรือโทรติดต่อได้โดยตรง</p>
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
                 <!-- บล็อกติดต่อฝั่งซ้าย -->
                 <div class="lg:col-span-5 space-y-6">
-                    <div class="bg-slate-50 dark:bg-slate-900 rounded-2xl p-6 border border-slate-100 dark:border-slate-800 flex items-start gap-4 hover:shadow-md transition">
-                        <div class="w-10 h-10 rounded-xl bg-theme-light text-theme-primary flex items-center justify-center flex-shrink-0">
+                    <a id="contact-email-link" href="#" class="bg-slate-50 dark:bg-slate-900 rounded-2xl p-6 border border-slate-100 dark:border-slate-800 flex items-start gap-4 hover:shadow-md transition block group">
+                        <div class="w-10 h-10 rounded-xl bg-theme-light text-theme-primary flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition">
                             <i data-lucide="mail" class="w-5 h-5"></i>
                         </div>
                         <div>
-                            <span class="text-xs font-semibold text-slate-400 block">อีเมลติดต่อ</span>
-                            <span id="contact-email" class="text-slate-800 dark:text-slate-200 font-medium break-all">atsanee.bank@phuket.uni.th</span>
+                            <span class="text-xs font-semibold text-slate-400 block">อีเมลติดต่อ (กดเพื่อส่งเมล)</span>
+                            <span id="contact-email" class="text-slate-800 dark:text-slate-200 font-medium break-all text-sm">atsanee.bank@phuket.uni.th</span>
                         </div>
-                    </div>
+                    </a>
 
-                    <div class="bg-slate-50 dark:bg-slate-900 rounded-2xl p-6 border border-slate-100 dark:border-slate-800 flex items-start gap-4 hover:shadow-md transition">
-                        <div class="w-10 h-10 rounded-xl bg-theme-light text-theme-primary flex items-center justify-center flex-shrink-0">
+                    <a id="contact-phone-link" href="#" class="bg-slate-50 dark:bg-slate-900 rounded-2xl p-6 border border-slate-100 dark:border-slate-800 flex items-start gap-4 hover:shadow-md transition block group">
+                        <div class="w-10 h-10 rounded-xl bg-theme-light text-theme-primary flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition">
                             <i data-lucide="phone" class="w-5 h-5"></i>
                         </div>
                         <div>
-                            <span class="text-xs font-semibold text-slate-400 block">เบอร์โทรศัพท์</span>
-                            <span id="contact-phone" class="text-slate-800 dark:text-slate-200 font-medium">081-234-5678</span>
+                            <span class="text-xs font-semibold text-slate-400 block">เบอร์โทรศัพท์ (กดโทรออก)</span>
+                            <span id="contact-phone" class="text-slate-800 dark:text-slate-200 font-medium text-sm">081-234-5678</span>
                         </div>
-                    </div>
+                    </a>
 
                     <div class="bg-slate-50 dark:bg-slate-900 rounded-2xl p-6 border border-slate-100 dark:border-slate-800 flex items-start gap-4 hover:shadow-md transition">
                         <div class="w-10 h-10 rounded-xl bg-theme-light text-theme-primary flex items-center justify-center flex-shrink-0">
                             <i data-lucide="map-pin" class="w-5 h-5"></i>
                         </div>
-                        <div>
-                            <span class="text-xs font-semibold text-slate-400 block">ที่อยู่ปัจจุบัน</span>
-                            <span id="contact-loc" class="text-slate-800 dark:text-slate-200 font-medium">อำเภอตะกั่วป่า จังหวัดพังงา ประเทศไทย</span>
+                        <div class="w-full">
+                            <span class="text-xs font-semibold text-slate-400 block mb-1">ที่อยู่ปัจจุบัน</span>
+                            <span id="contact-loc" class="text-slate-800 dark:text-slate-200 font-medium text-sm block">อำเภอตะกั่วป่า จังหวัดพังงา ประเทศไทย</span>
+                            <a id="contact-map-link" href="#" target="_blank" class="text-xs text-theme-primary font-bold hover:underline mt-1 inline-flex items-center gap-1">
+                                <i data-lucide="external-link" class="w-3 h-3"></i> ค้นหาแผนที่ที่ตั้งสถาบัน/บ้านเกิด
+                            </a>
                         </div>
                     </div>
                 </div>
 
-                <!-- ฟอร์มทดสอบการส่งอีเมลติดต่อ (Mockup แบบ Interactive) -->
+                <!-- ฟอร์มส่งข้อความพรีเซนต์จำลอง -->
                 <div class="lg:col-span-7 bg-slate-50 dark:bg-slate-900 rounded-2xl p-8 border border-slate-100 dark:border-slate-800">
                     <h4 class="text-lg font-semibold text-slate-900 dark:text-white mb-6">ส่งข้อความหาอัสนีโดยตรง</h4>
                     <form id="contact-form" onsubmit="handleContactSubmit(event)" class="space-y-4">
@@ -530,7 +518,6 @@
                 <!-- รายละเอียดผู้เขียน -->
                 <div class="flex items-center gap-4">
                     <div class="relative w-12 h-12 rounded-full overflow-hidden border border-slate-300 dark:border-slate-700 bg-slate-200 dark:bg-slate-800">
-                        <!-- รูปโปรไฟล์ผู้พัฒนา -->
                         <img id="dev-img" 
                              src="https://lh3.googleusercontent.com/d/1ZBZ5HGKv55aZeAZHi8EPz-1IgGwlndGD" 
                              alt="นายอัสนี" 
@@ -545,19 +532,19 @@
 
                 <!-- ข้อความลิขสิทธิ์ -->
                 <div class="text-center md:text-right">
-                    <p class="text-xs">© 2026 อัสนี สงวนปุญญศิริ. พัฒนาขึ้นมาเพื่อใช้งานเป็นแฟ้มผลงานส่วนบุคคลอย่างปลอดภัย</p>
+                    <p class="text-xs">© 2026 อัสนี สงวนปุญญศิริ. พัฒนาขึ้นมาเพื่อใช้งานเป็นแฟ้มผลงานมัลติมีเดียแบบพรีเมียม</p>
                     <p class="text-[10px] text-slate-400 mt-1">ขับเคลื่อนด้วย HTML, Tailwind CSS และ Vanilla Javascript</p>
                 </div>
             </div>
         </div>
     </footer>
 
-    <!-- ส่วนล่างสุด: แจ้งเตือนข้อความ Custom Alert -->
+    <!-- ส่วนแจ้งเตือนข้อความ (Toast) -->
     <div id="custom-toast" class="fixed bottom-5 right-5 z-50 bg-slate-900 text-white px-6 py-3 rounded-xl shadow-2xl flex items-center gap-2 transform translate-y-20 opacity-0 transition-all duration-300">
-        <span id="toast-message" class="text-sm font-medium">ทำเสร็จเรียบร้อย!</span>
+        <span id="toast-message" class="text-sm font-medium">บันทึกสำเร็จ!</span>
     </div>
 
-    <!-- ส่วนล่างสุด: ป๊อปอัปตรวจสอบรหัสผ่าน (Bank4481) -->
+    <!-- ส่วนป๊อปอัปตรวจสอบรหัสผ่าน (Bank4481) -->
     <div id="password-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
         <div class="bg-white dark:bg-slate-800 rounded-3xl p-6 max-w-sm w-full shadow-2xl border border-slate-100 dark:border-slate-700 text-center space-y-4">
             <div class="w-12 h-12 rounded-full bg-amber-100 dark:bg-amber-900/40 text-amber-500 dark:text-amber-400 flex items-center justify-center mx-auto">
@@ -565,7 +552,7 @@
             </div>
             <div>
                 <h4 class="text-lg font-bold text-slate-900 dark:text-white">เข้าสู่โหมดแก้ไขข้อมูล</h4>
-                <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">กรอกรหัสผ่านเพื่อสลับไปยังโหมดผู้พัฒนาเว็บไซต์</p>
+                <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">กรอกรหัสผ่านเพื่อสลับไปยังโหมดผู้พัฒนาและอัปเดตไฟล์สื่อต่างๆ</p>
             </div>
             <div>
                 <input type="password" id="input-password" onkeypress="handlePasswordKeyPress(event)" placeholder="รหัสผ่านผู้พัฒนา..." class="w-full px-4 py-2 rounded-xl text-center border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-amber-500 font-mono tracking-wider">
@@ -582,7 +569,50 @@
         </div>
     </div>
 
-    <!-- ส่วนล่างสุด: ป๊อปอัปแก้ไขกล่องความสามารถ (Skills Modal) -->
+    <!-- ป๊อปอัปแก้ไขกล่องข้อมูลประวัติสถาบัน/ที่อยู่ (About Box Modal) -->
+    <div id="about-card-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
+        <div class="bg-white dark:bg-slate-800 rounded-3xl p-6 max-w-md w-full shadow-2xl border border-slate-100 dark:border-slate-700 space-y-4">
+            <h4 class="text-base font-bold text-slate-900 dark:text-white">แก้ไขข้อมูลการศึกษา/ภูมิลำเนา</h4>
+            <div class="space-y-3">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-500 mb-1">หัวข้อเด่น</label>
+                    <input type="text" id="about-card-input-title" class="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-500 mb-1">รายละเอียด</label>
+                    <textarea id="about-card-input-desc" rows="3" class="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm"></textarea>
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-500 mb-1">ลิงก์ปลายทาง (เว็บไซต์ที่คลิกไปได้)</label>
+                    <input type="text" id="about-card-input-link" placeholder="เช่น https://www.pkru.ac.th" class="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-500 mb-1">สื่อประกอบ (อัปโหลดรูปภาพ/วิดีโอมาแทนไอคอน)</label>
+                    <div class="flex items-center gap-2">
+                        <label class="px-3 py-2 bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 rounded-lg text-xs font-semibold cursor-pointer transition">
+                            เลือกไฟล์รูป/วิดีโอ
+                            <input type="file" id="about-card-input-file" accept="image/*,video/*" onchange="processCardFile(this)" class="hidden">
+                        </label>
+                        <span id="about-card-file-status" class="text-slate-400 text-[10px] truncate max-w-[200px]">ไม่ได้อัปโหลดไฟล์สื่อใหม่</span>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-500 mb-1">หรือ วางลิงก์รูป/วิดีโอออนไลน์</label>
+                    <input type="text" id="about-card-input-media-url" placeholder="ลิงก์ไฟล์ภายนอก..." class="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm">
+                </div>
+            </div>
+            <div class="flex gap-2 pt-2">
+                <button onclick="closeAboutCardModal()" class="w-1/2 py-2 text-xs font-semibold text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-xl transition">
+                    ยกเลิก
+                </button>
+                <button onclick="saveAboutCardModal()" class="w-1/2 py-2 text-xs font-semibold bg-theme-primary bg-theme-primary-hover text-white rounded-xl transition shadow">
+                    บันทึกข้อมูล
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ส่วนป๊อปอัปแก้ไขกล่องความสามารถ (Skills Modal) -->
     <div id="skill-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
         <div class="bg-white dark:bg-slate-800 rounded-3xl p-6 max-w-sm w-full shadow-2xl border border-slate-100 dark:border-slate-700 space-y-4">
             <h4 class="text-base font-bold text-slate-900 dark:text-white" id="skill-modal-title">แก้ไขทักษะ</h4>
@@ -590,6 +620,10 @@
                 <div>
                     <label class="block text-xs font-semibold text-slate-500 mb-1">ชื่อทักษะ</label>
                     <input type="text" id="skill-input-name" class="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-500 mb-1">ลิงก์ใบรับรอง/รายละเอียดของทักษะ (ถ้ามี)</label>
+                    <input type="text" id="skill-input-link" placeholder="https://example.com/certificate" class="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm">
                 </div>
                 <div>
                     <label class="block text-xs font-semibold text-slate-500 mb-1">ระดับความเชี่ยวชาญ (0 - 100%)</label>
@@ -610,32 +644,7 @@
         </div>
     </div>
 
-    <!-- ส่วนล่างสุด: ป๊อปอัปแก้ไขหัวข้อเนื้อหาเพิ่มเติม -->
-    <div id="custom-section-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
-        <div class="bg-white dark:bg-slate-800 rounded-3xl p-6 max-w-lg w-full shadow-2xl border border-slate-100 dark:border-slate-700 space-y-4">
-            <h4 class="text-base font-bold text-slate-900 dark:text-white">แก้ไขเนื้อหาเพิ่มเติม</h4>
-            <div class="space-y-3">
-                <div>
-                    <label class="block text-xs font-semibold text-slate-500 mb-1">หัวข้อเด่น</label>
-                    <input type="text" id="custom-input-title" class="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm">
-                </div>
-                <div>
-                    <label class="block text-xs font-semibold text-slate-500 mb-1">รายละเอียด (บรรทัดละ 1 ย่อหน้า)</label>
-                    <textarea id="custom-input-content" rows="6" class="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm"></textarea>
-                </div>
-            </div>
-            <div class="flex gap-2 pt-2">
-                <button onclick="closeCustomSectionModal()" class="w-1/2 py-2 text-xs font-semibold text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-xl transition">
-                    ยกเลิก
-                </button>
-                <button onclick="saveCustomSectionModal()" class="w-1/2 py-2 text-xs font-semibold bg-theme-primary bg-theme-primary-hover text-white rounded-xl transition shadow">
-                    บันทึกข้อมูล
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- ส่วนล่างสุด: ป๊อปอัปสร้าง/แก้ไขโครงการ (Projects Modal) -->
+    <!-- ส่วนป๊อปอัปแก้ไขโครงการ (Projects Modal) -->
     <div id="project-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
         <div class="bg-white dark:bg-slate-800 rounded-3xl p-6 max-w-md w-full shadow-2xl border border-slate-100 dark:border-slate-700 space-y-4">
             <h4 class="text-base font-bold text-slate-900 dark:text-white" id="project-modal-title">แก้ไขโครงการ</h4>
@@ -649,8 +658,26 @@
                     <textarea id="project-input-desc" rows="3" class="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm"></textarea>
                 </div>
                 <div>
+                    <label class="block text-xs font-semibold text-slate-500 mb-1">ลิงก์โครงการ/เว็บสาธิตตัวอย่าง</label>
+                    <input type="text" id="project-input-link" placeholder="เช่น https://my-project-demo.com" class="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm">
+                </div>
+                <div>
                     <label class="block text-xs font-semibold text-slate-500 mb-1">แท็กที่เกี่ยวข้อง (ใช้เครื่องหมายจุลภาค , คั่น)</label>
                     <input type="text" id="project-input-tags" placeholder="เช่น HTML, CSS, JavaScript" class="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-500 mb-1">สื่อประกอบ (รูปภาพหรือคลิปวิดีโอพรีเซนต์สั้น)</label>
+                    <div class="flex items-center gap-2">
+                        <label class="px-3 py-2 bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 rounded-lg text-xs font-semibold cursor-pointer transition">
+                            เลือกไฟล์รูป/วิดีโอ
+                            <input type="file" id="project-input-file" accept="image/*,video/*" onchange="processProjectFile(this)" class="hidden">
+                        </label>
+                        <span id="project-file-status" class="text-slate-400 text-[10px] truncate max-w-[200px]">ไม่ได้อัปโหลดไฟล์สื่อใหม่</span>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-500 mb-1">หรือ วางลิงก์รูป/วิดีโอออนไลน์</label>
+                    <input type="text" id="project-input-media-url" placeholder="ลิงก์ไฟล์รูปหรือวิดีโอโดยตรง..." class="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm">
                 </div>
             </div>
             <div class="flex gap-2 pt-2">
@@ -664,6 +691,55 @@
         </div>
     </div>
 
+    <!-- ส่วนป๊อปอัปแก้ไขหัวข้อเนื้อหาเพิ่มเติม และวิดีโอข้างย่อหน้า (Custom Section Modal) -->
+    <div id="custom-section-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
+        <div class="bg-white dark:bg-slate-800 rounded-3xl p-6 max-w-lg w-full shadow-2xl border border-slate-100 dark:border-slate-700 space-y-4">
+            <h4 class="text-base font-bold text-slate-900 dark:text-white">แก้ไขเนื้อหาเพิ่มเติมและลิงก์ปุ่ม</h4>
+            <div class="space-y-3">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-500 mb-1">หัวข้อเด่น</label>
+                    <input type="text" id="custom-input-title" class="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-500 mb-1">รายละเอียด (บรรทัดละ 1 ย่อหน้า)</label>
+                    <textarea id="custom-input-content" rows="4" class="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm"></textarea>
+                </div>
+                <div class="grid grid-cols-2 gap-2">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-500 mb-1">ข้อความบนปุ่มกด</label>
+                        <input type="text" id="custom-input-btn-text" placeholder="อ่านประวัติเพิ่มเติม..." class="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-500 mb-1">ลิงก์ปุ่มกดปลายทาง</label>
+                        <input type="text" id="custom-input-btn-url" placeholder="https://..." class="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-500 mb-1">อัปโหลดสื่อด้านข้าง (รูปภาพหรือวิดีโอเสริม)</label>
+                    <div class="flex items-center gap-2">
+                        <label class="px-3 py-2 bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 rounded-lg text-xs font-semibold cursor-pointer transition">
+                            เลือกไฟล์รูป/วิดีโอ
+                            <input type="file" id="custom-input-file" accept="image/*,video/*" onchange="processCustomFile(this)" class="hidden">
+                        </label>
+                        <span id="custom-file-status" class="text-slate-400 text-[10px] truncate max-w-[200px]">ไม่ได้อัปโหลดไฟล์สื่อใหม่</span>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-500 mb-1">หรือ วางลิงก์รูป/วิดีโอออนไลน์</label>
+                    <input type="text" id="custom-input-media-url" placeholder="ลิงก์ไฟล์รูปหรือวิดีโอโดยตรง..." class="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm">
+                </div>
+            </div>
+            <div class="flex gap-2 pt-2">
+                <button onclick="closeCustomSectionModal()" class="w-1/2 py-2 text-xs font-semibold text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-xl transition">
+                    ยกเลิก
+                </button>
+                <button onclick="saveCustomSectionModal()" class="w-1/2 py-2 text-xs font-semibold bg-theme-primary bg-theme-primary-hover text-white rounded-xl transition shadow">
+                    บันทึกข้อมูล
+                </button>
+            </div>
+        </div>
+    </div>
+
     <!-- สคริปต์ทำงานระบบทั้งหมด -->
     <script>
         // ข้อมูลเริ่มต้นของ นายอัสนี สงวนปุญญศิริ
@@ -672,38 +748,55 @@
                 fullName: "นายอัสนี สงวนปุญญศิริ",
                 role: "นักศึกษา มหาวิทยาลัยราชภัฏภูเก็ต",
                 bio: "กำลังศึกษาอยู่ที่มหาวิทยาลัยราชภัฏภูเก็ต เคยศึกษาที่โรงเรียนเทศบาลบ้านย่านยาว ภูมิลำเนาตั้งอยู่ที่ตำบลบางม่วง อำเภอตะกั่วป่า จังหวัดพังงา มีความกระตือรือร้นในการศึกษาหาความรู้ด้านไอทีและเว็บเทคโนโลยีอย่างสร้างสรรค์",
-                image: "https://lh3.googleusercontent.com/d/1ZBZ5HGKv55aZeAZHi8EPz-1IgGwlndGD"
+                image: "https://lh3.googleusercontent.com/d/1ZBZ5HGKv55aZeAZHi8EPz-1IgGwlndGD",
+                imageType: "image" // image หรือ video
             },
             education: {
                 uniTitle: "มหาวิทยาลัยราชภัฏภูเก็ต",
                 uniDesc: "กำลังศึกษาอยู่ ปริญญาตรี คณะวิทยาศาสตร์และเทคโนโลยี พัฒนาทักษะที่เกี่ยวข้องกับเทคโนโลยีคอมพิวเตอร์และสื่อดิจิทัลเพื่อนำไปประยุกต์ใช้งาน",
+                uniLink: "https://www.pkru.ac.th",
+                uniMedia: "",
+                uniMediaType: "icon", // icon, image, video
+
                 schTitle: "โรงเรียนเทศบาลบ้านย่านยาว",
                 schDesc: "เคยศึกษาเล่าเรียนระดับการศึกษาขั้นพื้นฐานที่โรงเรียนเทศบาลบ้านย่านยาว เสริมสร้างทักษะระเบียบวินัยและความรู้พื้นฐานอย่างแน่นแฟ้น",
+                schLink: "https://yanyaw.ac.th",
+                schMedia: "",
+                schMediaType: "icon",
+
                 addrTitle: "ตำบลบางม่วง อำเภอตะกั่วป่า จังหวัดพังงา",
-                addrDesc: "ที่อยู่บ้านภูมิลำเนาเดิม สถานที่สงบงามรายล้อมไปด้วยภูเขาและวัฒนธรรมพื้นบ้านโบราณอันเป็นเอกลักษณ์ของจังหวัดพังงา"
+                addrDesc: "ที่อยู่บ้านภูมิลำเนาเดิม สถานที่สงบงามรายล้อมไปด้วยภูเขาและวัฒนธรรมพื้นบ้านโบราณอันเป็นเอกลักษณ์ของจังหวัดพังงา",
+                addrLink: "https://maps.google.com/?q=ตำบลบางม่วง+อำเภอตะกั่วป่า+จังหวัดพังงา",
+                addrMedia: "",
+                addrMediaType: "icon"
             },
             skills: [
-                { id: "s1", name: "HTML5 & Tailwind CSS", level: 95 },
-                { id: "s2", name: "Javascript ES6+", level: 85 },
-                { id: "s3", name: "Responsive Web Development", level: 90 },
-                { id: "s4", name: "UX & UI Design Systems", level: 80 }
+                { id: "s1", name: "HTML5 & Tailwind CSS", level: 95, link: "" },
+                { id: "s2", name: "Javascript ES6+", level: 85, link: "" },
+                { id: "s3", name: "Responsive Web Development", level: 90, link: "" },
+                { id: "s4", name: "UX & UI Design Systems", level: 80, link: "" }
             ],
             projects: [
-                { id: "p1", title: "เว็บไซต์แฟ้มสะสมผลงานอเนกประสงค์", desc: "การออกแบบและพัฒนาเว็บไซต์หน้าเดียวแบบ Responsive ที่มีระบบการบันทึกแก้ไข และเปลี่ยนธีมสีแบบ Dynamic เหมาะสำหรับนำเสนอบุคคลทั่วไป", tags: ["HTML", "TailwindCSS", "JS"] },
-                { id: "p2", title: "ระบบจำลองทดสอบคีย์รหัสผ่าน", desc: "พัฒนาระบบรักษาความปลอดภัยแบบ Client-Side สำหรับเว็บแอปพลิเคชันอย่างปลอดภัย โดยไม่ต้องพึ่งพาระบบ Back-end เพื่อความรวดเร็วและเป็นส่วนตัว", tags: ["Web Crypt", "Local Storage"] },
-                { id: "p3", title: "โครงการประยุกต์ใช้ซอฟต์แวร์ในท้องถิ่น", desc: "แนวคิดการประยุกต์ไอที เพื่อส่งเสริมอุตสาหกรรมการท่องเที่ยวทางธรรมชาติในตะกั่วป่า พังงา และเมืองเก่าจังหวัดภูเก็ต", tags: ["Idea", "Innovation", "Local"] }
+                { id: "p1", title: "เว็บไซต์แฟ้มสะสมผลงานอเนกประสงค์", desc: "การออกแบบและพัฒนาเว็บไซต์หน้าเดียวแบบ Responsive ที่มีระบบการบันทึกแก้ไข และเปลี่ยนธีมสีแบบ Dynamic เหมาะสำหรับนำเสนอบุคคลทั่วไป", tags: ["HTML", "TailwindCSS", "JS"], link: "https://github.com", media: "", mediaType: "image" },
+                { id: "p2", title: "ระบบจำลองทดสอบคีย์รหัสผ่าน", desc: "พัฒนาระบบรักษาความปลอดภัยแบบ Client-Side สำหรับเว็บแอปพลิเคชันอย่างปลอดภัย โดยไม่ต้องพึ่งพาระบบ Back-end เพื่อความรวดเร็วและเป็นส่วนตัว", tags: ["Web Crypt", "Local Storage"], link: "", media: "", mediaType: "image" },
+                { id: "p3", title: "โครงการประยุกต์ใช้ซอฟต์แวร์ในท้องถิ่น", desc: "แนวคิดการประยุกต์ไอที เพื่อส่งเสริมอุตสาหกรรมการท่องเที่ยวทางธรรมชาติในตะกั่วป่า พังงา และเมืองเก่าจังหวัดภูเก็ต", tags: ["Idea", "Innovation", "Local"], link: "", media: "", mediaType: "image" }
             ],
             customSection: {
                 title: "เป้าหมายและเจตจำนงในการทำงาน",
                 paragraphs: [
-                    "ผมมุ่งหวังที่จะนำวิชาชีพการพัฒนาเทคโนโลยีมาพัฒนาท้องถิ่นอันดามัน ไม่ว่าจะเป็นบ้านเกิด ณ อำเภตะกั่วป่า จังหวัดพังงา หรือศูนย์กลางเศรษฐกิจการศึกษา ณ จังหวัดภูเก็ต",
+                    "ผมมุ่งหวังที่จะนำวิชาชีพการพัฒนาเทคโนโลยีมาพัฒนาท้องถิ่นอันดามัน ไม่ว่าจะเป็นบ้านเกิด ณ อำเภอตะกั่วป่า จังหวัดพังงา หรือศูนย์กลางเศรษฐกิจการศึกษา ณ จังหวัดภูเก็ต",
                     "ทุกส่วนของหน้าจอนี้ถูกจัดทำเพื่อความคล่องตัว มีระเบียบ สามารถเสนอสถาบัน หรือหน่วยงานราชการ ตลอดจนองค์กรเอกชนได้อย่างมืออาชีพ"
-                ]
+                ],
+                btnText: "ดูหน้าเพจของ มรภ.ภูเก็ต",
+                btnUrl: "https://www.pkru.ac.th",
+                media: "",
+                mediaType: "image"
             },
             contact: {
                 email: "atsanee.bank@phuket.uni.th",
                 phone: "081-234-5678",
-                location: "ต.บางม่วง อ.ตะกั่วป่า จ.พังงา"
+                location: "ต.บางม่วง อ.ตะกั่วป่า จ.พังงา",
+                mapLink: "https://maps.google.com/?q=ตำบลบางม่วง+อำเภอตะกั่วป่า+จังหวัดพังงา"
             }
         };
 
@@ -712,21 +805,27 @@
         let isEditMode = false;
         let activeSkillId = null;
         let activeProjectId = null;
+        let activeAboutCardKey = null; // uni, sch, addr
+
+        // ตัวแปรเก็บไฟล์ชั่วคราวก่อนกดเซฟ
+        let tempCardMedia = "";
+        let tempCardMediaType = "icon";
+        let tempProjectMedia = "";
+        let tempProjectMediaType = "image";
+        let tempCustomMedia = "";
+        let tempCustomMediaType = "image";
 
         // ฟังก์ชันล้างภาพกรณีลิงก์เสียหรือติดบล็อกโหลด
         function handleImageLoadError(img) {
-            // ใช้ SVG สร้างภาพรูปคนเสมือนเกรดดีไซน์ระดับพรีเมียม เพื่อไม่ให้เว็บดูขาดพัง
-            img.src = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='320' height='420' viewBox='0 0 320 420'><rect width='320' height='420' fill='%23e2e8f0'/><circle cx='160' cy='160' r='70' fill='%23cbd5e1'/><path d='M60,330 C60,260 110,240 160,240 C210,240 260,260 260,330 C260,370 240,380 160,380 C80,380 60,370 60,330 Z' fill='%23cbd5e1'/><text x='50%' y='92%' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='14' fill='%2364748b' font-weight='bold'>นายอัสนี สงวนปุญญศิริ</text></svg>";
+            img.src = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='320' height='420' viewBox='0 0 320 420'><rect width='320' height='420' fill='%23cbd5e1'/><circle cx='160' cy='160' r='60' fill='%2394a3b8'/><path d='M60,320 C60,260 110,240 160,240 C210,240 260,260 260,320 C260,350 240,360 160,360 C80,360 60,350 60,320 Z' fill='%2394a3b8'/><text x='50%' y='92%' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='14' fill='%23475569' font-weight='bold'>นายอัสนี สงวนปุญญศิริ</text></svg>";
         }
 
         // โหลดข้อมูลขึ้นแสดงผลเมื่อเปิดหน้าเว็บ
-        window.addEventListener('DOMContentLoaded', () => {
+        window.onload = function() {
             initPortfolio();
-            // เช็คธีมสีที่เก็บไว้
             const savedTheme = localStorage.getItem('atsanee_theme') || 'indigo';
             setTheme(savedTheme);
             
-            // เช็ค Dark mode
             if (localStorage.getItem('atsanee_dark') === 'true' || 
                 (!('atsanee_dark' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
                 document.documentElement.classList.add('dark');
@@ -734,32 +833,47 @@
                 document.documentElement.classList.remove('dark');
             }
             lucide.createIcons();
-        });
+        }
+
+        // ฟังก์ชันช่วยเรนเดอร์ สื่อมัลติมีเดีย (รูปภาพ หรือ วิดีโอ)
+        function renderMediaHTML(src, type, fallbackAlt = "Media File", className = "w-full h-full object-cover") {
+            if (!src) {
+                return `<div class="w-full h-full flex items-center justify-center bg-slate-200 dark:bg-slate-800 text-slate-400">
+                            <i data-lucide="image" class="w-8 h-8"></i>
+                        </div>`;
+            }
+            
+            // ตรวจหาว่าเป็นไฟล์วิดีโอหรือไม่
+            const isVideo = type === 'video' || src.startsWith('data:video/') || src.endsWith('.mp4') || src.endsWith('.webm') || src.endsWith('.ogg');
+            
+            if (isVideo) {
+                return `<video src="${src}" class="${className}" autoplay muted loop playsinline></video>`;
+            } else {
+                return `<img src="${src}" alt="${fallbackAlt}" class="${className}" onerror="handleImageLoadError(this)">`;
+            }
+        }
 
         // ฟังก์ชันเรนเดอร์และเตรียมความพร้อมข้อมูลทั้งหมด
         function initPortfolio() {
-            // Hero
+            // Hero Texts
             document.getElementById('hero-name').innerText = portfolioData.profile.fullName;
             document.getElementById('hero-role').innerText = portfolioData.profile.role;
             document.getElementById('hero-bio').innerText = portfolioData.profile.bio;
             
-            const profileImg = document.getElementById('profile-img');
+            // Hero Media Render (Image or Video)
+            const profileContainer = document.getElementById('profile-media-container');
+            profileContainer.innerHTML = renderMediaHTML(portfolioData.profile.image, portfolioData.profile.imageType, portfolioData.profile.fullName);
+
             const devImg = document.getElementById('dev-img');
-            profileImg.src = portfolioData.profile.image;
             devImg.src = portfolioData.profile.image;
 
-            // Education & Address
-            document.getElementById('edu-uni-title').innerText = portfolioData.education.uniTitle;
-            document.getElementById('edu-uni-desc').innerText = portfolioData.education.uniDesc;
-            document.getElementById('edu-sch-title').innerText = portfolioData.education.schTitle;
-            document.getElementById('edu-sch-desc').innerText = portfolioData.education.schDesc;
-            document.getElementById('addr-title').innerText = portfolioData.education.addrTitle;
-            document.getElementById('addr-desc').innerText = portfolioData.education.addrDesc;
-
-            // Contact info
+            // Contact Elements & Action Links
             document.getElementById('contact-email').innerText = portfolioData.contact.email;
+            document.getElementById('contact-email-link').href = `mailto:${portfolioData.contact.email}`;
             document.getElementById('contact-phone').innerText = portfolioData.contact.phone;
+            document.getElementById('contact-phone-link').href = `tel:${portfolioData.contact.phone}`;
             document.getElementById('contact-loc').innerText = portfolioData.contact.location;
+            document.getElementById('contact-map-link').href = portfolioData.contact.mapLink || '#';
 
             // Custom Section
             document.getElementById('custom-section-title').innerText = portfolioData.customSection.title;
@@ -771,9 +885,82 @@
                 customContentDiv.appendChild(para);
             });
 
-            // Skills & Projects List Rendering
+            // Custom Section Button (CTA Link)
+            const ctaContainer = document.getElementById('custom-cta-container');
+            if (portfolioData.customSection.btnText) {
+                ctaContainer.innerHTML = `
+                    <a href="${portfolioData.customSection.btnUrl || '#'}" target="_blank" class="px-5 py-2.5 bg-theme-primary bg-theme-primary-hover text-white text-xs font-semibold rounded-lg shadow inline-flex items-center gap-1.5 transition">
+                        <span>${portfolioData.customSection.btnText}</span>
+                        <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
+                    </a>
+                `;
+            } else {
+                ctaContainer.innerHTML = '';
+            }
+
+            // Custom Section Media
+            const customMediaContainer = document.getElementById('custom-media-container');
+            customMediaContainer.innerHTML = renderMediaHTML(portfolioData.customSection.media, portfolioData.customSection.mediaType, "Custom Feature");
+
+            // Dynamic Sub-Sections
+            renderAboutCards();
             renderSkills();
             renderProjects();
+            lucide.createIcons();
+        }
+
+        // เรนเดอร์ส่วนข้อมูลประวัติในรูปแบบการอัปโหลดไฟล์สื่อผสมได้
+        function renderAboutCards() {
+            const container = document.getElementById('about-cards-container');
+            container.innerHTML = '';
+
+            const cards = [
+                { key: 'uni', title: portfolioData.education.uniTitle, desc: portfolioData.education.uniDesc, link: portfolioData.education.uniLink, media: portfolioData.education.uniMedia, mediaType: portfolioData.education.uniMediaType, defaultIcon: 'graduation-cap', label: 'ระดับอุดมศึกษา' },
+                { key: 'sch', title: portfolioData.education.schTitle, desc: portfolioData.education.schDesc, link: portfolioData.education.schLink, media: portfolioData.education.schMedia, mediaType: portfolioData.education.schMediaType, defaultIcon: 'book-open', label: 'ระดับโรงเรียน' },
+                { key: 'addr', title: portfolioData.education.addrTitle, desc: portfolioData.education.addrDesc, link: portfolioData.education.addrLink, media: portfolioData.education.addrMedia, mediaType: portfolioData.education.addrMediaType, defaultIcon: 'map-pin', label: 'ภูมิลำเนาดั้งเดิม' }
+            ];
+
+            cards.forEach(c => {
+                const cardEl = document.createElement('div');
+                cardEl.className = "bg-slate-50 dark:bg-slate-900 rounded-2xl p-8 border border-slate-100 dark:border-slate-800 hover:shadow-premium hover:-translate-y-1 transition-all duration-300 relative flex flex-col justify-between";
+                
+                // ตรวจเช็คว่ามีไฟล์อัปโหลดเข้ามาแทนไอคอนดั้งเดิมหรือไม่
+                let mediaBlock = '';
+                if (c.mediaType !== 'icon' && c.media) {
+                    mediaBlock = `<div class="w-full h-32 rounded-xl overflow-hidden mb-6 bg-slate-200 dark:bg-slate-800">
+                                    ${renderMediaHTML(c.media, c.mediaType, c.title, "w-full h-full object-cover")}
+                                  </div>`;
+                } else {
+                    mediaBlock = `<div class="w-12 h-12 rounded-xl bg-theme-light text-theme-primary flex items-center justify-center mb-6">
+                                    <i data-lucide="${c.defaultIcon}" class="w-6 h-6"></i>
+                                  </div>`;
+                }
+
+                let editBtn = isEditMode ? `
+                    <button onclick="openAboutCardEdit('${c.key}')" class="absolute top-4 right-4 p-2 bg-amber-500 hover:bg-amber-600 text-white rounded-xl shadow transition z-10">
+                        <i data-lucide="edit-3" class="w-4 h-4"></i>
+                    </button>
+                ` : '';
+
+                let linkBtn = c.link ? `
+                    <a href="${c.link}" target="_blank" class="mt-4 text-xs font-bold text-theme-primary hover:underline inline-flex items-center gap-1">
+                        เยี่ยมชมเว็บไซต์อ้างอิง <i data-lucide="external-link" class="w-3 h-3"></i>
+                    </a>
+                ` : '';
+
+                cardEl.innerHTML = `
+                    ${editBtn}
+                    <div>
+                        ${mediaBlock}
+                        <span class="text-xs font-semibold text-slate-400 block mb-2">${c.label}</span>
+                        <h4 class="text-lg font-bold mb-3 text-slate-900 dark:text-white">${c.title}</h4>
+                        <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">${c.desc}</p>
+                    </div>
+                    ${linkBtn}
+                `;
+                container.appendChild(cardEl);
+            });
+            lucide.createIcons();
         }
 
         // เรนเดอร์ส่วนความสามารถ (Skills)
@@ -785,8 +972,8 @@
                 const card = document.createElement('div');
                 card.className = "bg-white dark:bg-slate-950 p-6 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-premium flex flex-col justify-between relative group";
                 
-                let deleteBtnHtml = isEditMode ? `
-                    <div class="absolute top-4 right-4 flex gap-1">
+                let editControls = isEditMode ? `
+                    <div class="absolute top-4 right-4 flex gap-1 z-10">
                         <button onclick="openSkillEdit('${skill.id}')" class="p-1.5 bg-amber-500 hover:bg-amber-600 text-white rounded-lg shadow transition">
                             <i data-lucide="edit-2" class="w-3.5 h-3.5"></i>
                         </button>
@@ -796,22 +983,30 @@
                     </div>
                 ` : '';
 
+                // ลิงก์แนบเกียรติบัตรทักษะ
+                let certificateLink = skill.link ? `
+                    <a href="${skill.link}" target="_blank" class="text-xs font-semibold text-theme-primary hover:underline mt-2 inline-flex items-center gap-1">
+                        <i data-lucide="award" class="w-3.5 h-3.5"></i> ดูหลักฐานอ้างอิง/ใบรับรอง
+                    </a>
+                ` : '';
+
                 card.innerHTML = `
-                    ${deleteBtnHtml}
+                    ${editControls}
                     <div class="flex justify-between items-center mb-2">
-                        <span class="font-bold text-slate-800 dark:text-slate-200 text-base ${isEditMode ? 'editable-field' : ''}" onblur="directEditSkillName('${skill.id}', this)" contenteditable="${isEditMode}">${skill.name}</span>
+                        <span class="font-bold text-slate-800 dark:text-slate-200 text-base">${skill.name}</span>
                         <span class="text-sm font-semibold text-theme-primary">${skill.level}%</span>
                     </div>
                     <div class="w-full bg-slate-100 dark:bg-slate-800 rounded-full h-3 overflow-hidden">
                         <div class="bg-theme-primary h-full rounded-full transition-all duration-1000" style="width: ${skill.level}%"></div>
                     </div>
+                    ${certificateLink}
                 `;
                 listContainer.appendChild(card);
             });
             lucide.createIcons();
         }
 
-        // เรนเดอร์ส่วนของหน้างาน/ผลงาน (Projects)
+        // เรนเดอร์โครงการ (Projects)
         function renderProjects() {
             const gridContainer = document.getElementById('projects-grid');
             gridContainer.innerHTML = '';
@@ -820,8 +1015,8 @@
                 const card = document.createElement('div');
                 card.className = "bg-slate-50 dark:bg-slate-900 rounded-2xl p-6 border border-slate-100 dark:border-slate-800 hover:shadow-premium hover:-translate-y-1 transition-all duration-300 relative group flex flex-col justify-between h-full";
                 
-                let deleteBtnHtml = isEditMode ? `
-                    <div class="absolute top-4 right-4 flex gap-1">
+                let editControls = isEditMode ? `
+                    <div class="absolute top-4 right-4 flex gap-1 z-10">
                         <button onclick="openProjectEdit('${proj.id}')" class="p-1.5 bg-amber-500 hover:bg-amber-600 text-white rounded-lg shadow transition">
                             <i data-lucide="edit-2" class="w-3.5 h-3.5"></i>
                         </button>
@@ -831,22 +1026,39 @@
                     </div>
                 ` : '';
 
+                // สื่อประกอบโครงการ (รูปหรือวิดีโอ)
+                let projectMediaHTML = '';
+                if (proj.media) {
+                    projectMediaHTML = `
+                        <div class="w-full h-44 rounded-xl overflow-hidden mb-4 bg-slate-200 dark:bg-slate-800">
+                            ${renderMediaHTML(proj.media, proj.mediaType, proj.title, "w-full h-full object-cover")}
+                        </div>
+                    `;
+                }
+
                 let tagsHtml = proj.tags.map(t => `<span class="px-2 py-1 bg-white dark:bg-slate-800 text-[10px] font-bold text-slate-500 dark:text-slate-400 rounded-md border border-slate-100 dark:border-slate-700">${t}</span>`).join('');
 
+                let projectLinkBtn = proj.link ? `
+                    <a href="${proj.link}" target="_blank" class="text-xs font-bold text-theme-primary hover:underline flex items-center gap-1 mt-3">
+                        <i data-lucide="link" class="w-3.5 h-3.5"></i> เปิดดูโครงการจริง
+                    </a>
+                ` : '';
+
                 card.innerHTML = `
-                    <div class="space-y-4">
-                        <div class="w-10 h-10 rounded-xl bg-theme-light text-theme-primary flex items-center justify-center">
-                            <i data-lucide="folder-git-2" class="w-5 h-5"></i>
-                        </div>
+                    <div>
+                        ${projectMediaHTML}
                         <div class="space-y-2">
                             <h4 class="text-lg font-bold text-slate-900 dark:text-white">${proj.title}</h4>
                             <p class="text-slate-500 dark:text-slate-400 text-xs sm:text-sm leading-relaxed">${proj.desc}</p>
                         </div>
                     </div>
-                    <div class="flex flex-wrap gap-1.5 pt-4 border-t border-slate-100 dark:border-slate-800 mt-4">
-                        ${tagsHtml}
+                    <div>
+                        <div class="flex flex-wrap gap-1.5 pt-4 border-t border-slate-100 dark:border-slate-800 mt-4">
+                            ${tagsHtml}
+                        </div>
+                        ${projectLinkBtn}
                     </div>
-                    ${deleteBtnHtml}
+                    ${editControls}
                 `;
                 gridContainer.appendChild(card);
             });
@@ -861,7 +1073,7 @@
             
             if (isEditMode) {
                 deactivateEditMode();
-                showToast("ออกจากโหมดแก้ไขเรียบร้อย");
+                showToast("ออกจากโหมดแก้ไขข้อมูลแล้ว");
                 return;
             }
 
@@ -900,35 +1112,24 @@
             document.getElementById('image-edit-overlay').classList.remove('hidden');
             document.getElementById('custom-section-control').classList.remove('hidden');
             
-            // เปลี่ยนไอคอนเป็นรูปกุญแจปลดล็อกสีส้ม
             const iconLock = document.getElementById('icon-lock');
             iconLock.setAttribute('data-lucide', 'unlock');
             iconLock.parentElement.classList.add('text-amber-500');
             
-            // ทำให้อิลีเมนต์เนื้อหาทั่วไป Contenteditable
             enableEditableField('hero-name', 'profile', 'fullName');
             enableEditableField('hero-role', 'profile', 'role');
             enableEditableField('hero-bio', 'profile', 'bio');
             
-            enableEditableField('edu-uni-title', 'education', 'uniTitle');
-            enableEditableField('edu-uni-desc', 'education', 'uniDesc');
-            enableEditableField('edu-sch-title', 'education', 'schTitle');
-            enableEditableField('edu-sch-desc', 'education', 'schDesc');
-            enableEditableField('addr-title', 'education', 'addrTitle');
-            enableEditableField('addr-desc', 'education', 'addrDesc');
-
             enableEditableField('contact-email', 'contact', 'email');
             enableEditableField('contact-phone', 'contact', 'phone');
             enableEditableField('contact-loc', 'contact', 'location');
 
-            renderSkills();
-            renderProjects();
-            
-            showToast("เข้าสู่โหมดแก้ไขสำเร็จ! คลิกข้อความใดเพื่อแก้ไขได้ทันที");
+            initPortfolio();
+            showToast("สลับเข้าสู่โหมดแก้ไขข้อมูลแล้ว!");
             lucide.createIcons();
         }
 
-        // ยกเลิกและปิดโหมดแก้ไข
+        // ปิดโหมดแก้ไข
         function deactivateEditMode() {
             isEditMode = false;
             document.getElementById('edit-banner').classList.add('hidden');
@@ -944,25 +1145,15 @@
             disableEditableField('hero-name');
             disableEditableField('hero-role');
             disableEditableField('hero-bio');
-            disableEditableField('edu-uni-title');
-            disableEditableField('edu-uni-desc');
-            disableEditableField('edu-sch-title');
-            disableEditableField('edu-sch-desc');
-            disableEditableField('addr-title');
-            disableEditableField('addr-desc');
             disableEditableField('contact-email');
             disableEditableField('contact-phone');
             disableEditableField('contact-loc');
 
-            // บันทึกลง LocalStorage ถาวร
             localStorage.setItem('atsanee_portfolio_data', JSON.stringify(portfolioData));
-
-            renderSkills();
-            renderProjects();
-            lucide.createIcons();
+            initPortfolio();
+            showToast("บันทึกข้อมูลถาวรสำเร็จ");
         }
 
-        // การตั้งค่าตัวแปรแก้ไขสดเนื้อหาในตัว
         function enableEditableField(elementId, group, key) {
             const el = document.getElementById(elementId);
             if (!el) return;
@@ -972,7 +1163,7 @@
             el.onblur = () => {
                 portfolioData[group][key] = el.innerText.trim();
                 localStorage.setItem('atsanee_portfolio_data', JSON.stringify(portfolioData));
-                showToast("บันทึกการแก้ไขชั่วคราวแล้ว");
+                showToast("จำลองข้อมูลเรียบร้อย");
             };
         }
 
@@ -984,11 +1175,50 @@
             el.onblur = null;
         }
 
-        // การจัดการทักษะแบบละเอียด (Skills CRUD)
+        // อัปโหลดรูปภาพ / วิดีโอโปรไฟล์ผู้พัฒนา
+        function uploadProfileMedia(input) {
+            const file = input.files[0];
+            if (file) {
+                if (file.size > 2 * 1024 * 1024) {
+                    showToast("เตือน: ไฟล์ใหญ่เกิน 2MB อาจไม่บันทึกลงเบราว์เซอร์");
+                }
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    portfolioData.profile.image = e.target.result;
+                    portfolioData.profile.imageType = file.type.startsWith('video/') ? 'video' : 'image';
+                    localStorage.setItem('atsanee_portfolio_data', JSON.stringify(portfolioData));
+                    initPortfolio();
+                    showToast("อัปโหลดไฟล์สื่อหลักเรียบร้อย");
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function updateProfileImageUrl(url) {
+            if (url.trim() !== '') {
+                portfolioData.profile.image = url.trim();
+                // ตรวจหาประเภทสื่อเบื้องต้นจากนามสกุล
+                portfolioData.profile.imageType = (url.endsWith('.mp4') || url.endsWith('.webm')) ? 'video' : 'image';
+                localStorage.setItem('atsanee_portfolio_data', JSON.stringify(portfolioData));
+                initPortfolio();
+                showToast("บันทึกลิงก์รูปภาพโปรไฟล์เรียบร้อย");
+            }
+        }
+
+        function resetToDefaultImage() {
+            portfolioData.profile.image = defaultPortfolioData.profile.image;
+            portfolioData.profile.imageType = "image";
+            localStorage.setItem('atsanee_portfolio_data', JSON.stringify(portfolioData));
+            initPortfolio();
+            showToast("รีเซ็ตเป็นรูปภาพเริ่มต้นแล้ว");
+        }
+
+        // จัดการ CRUD ทักษะ (Skills)
         function addNewSkill() {
             activeSkillId = null;
             document.getElementById('skill-modal-title').innerText = "เพิ่มทักษะความสามารถใหม่";
             document.getElementById('skill-input-name').value = "ทักษะใหม่";
+            document.getElementById('skill-input-link').value = "";
             document.getElementById('skill-input-level').value = 80;
             document.getElementById('skill-input-level-range').value = 80;
             document.getElementById('skill-modal').classList.remove('hidden');
@@ -1000,6 +1230,7 @@
             if (!skill) return;
             document.getElementById('skill-modal-title').innerText = "แก้ไขข้อมูลทักษะ";
             document.getElementById('skill-input-name').value = skill.name;
+            document.getElementById('skill-input-link').value = skill.link || "";
             document.getElementById('skill-input-level').value = skill.level;
             document.getElementById('skill-input-level-range').value = skill.level;
             document.getElementById('skill-modal').classList.remove('hidden');
@@ -1011,20 +1242,21 @@
 
         function saveSkillModal() {
             const name = document.getElementById('skill-input-name').value.trim();
+            const link = document.getElementById('skill-input-link').value.trim();
             const level = parseInt(document.getElementById('skill-input-level').value) || 0;
 
             if (activeSkillId) {
-                // อัปเดตทักษะที่มีอยู่
                 const skillIndex = portfolioData.skills.findIndex(s => s.id === activeSkillId);
                 if (skillIndex > -1) {
                     portfolioData.skills[skillIndex].name = name;
+                    portfolioData.skills[skillIndex].link = link;
                     portfolioData.skills[skillIndex].level = level;
                 }
             } else {
-                // สร้างใหม่
                 const newSkill = {
                     id: 's-' + Date.now(),
                     name: name,
+                    link: link,
                     level: level
                 };
                 portfolioData.skills.push(newSkill);
@@ -1032,43 +1264,109 @@
             localStorage.setItem('atsanee_portfolio_data', JSON.stringify(portfolioData));
             closeSkillModal();
             renderSkills();
-            showToast("อัปเดตข้อมูลทักษะสำเร็จ");
+            showToast("บันทึกทักษะเรียบร้อย");
         }
 
         function deleteSkill(id) {
             portfolioData.skills = portfolioData.skills.filter(s => s.id !== id);
             localStorage.setItem('atsanee_portfolio_data', JSON.stringify(portfolioData));
             renderSkills();
-            showToast("ลบทักษะเรียบร้อย");
+            showToast("ลบทักษะแล้ว");
         }
 
-        function directEditSkillName(id, el) {
-            const skillIndex = portfolioData.skills.findIndex(s => s.id === id);
-            if (skillIndex > -1) {
-                portfolioData.skills[skillIndex].name = el.innerText.trim();
-                localStorage.setItem('atsanee_portfolio_data', JSON.stringify(portfolioData));
+        // จัดการข้อมูลสถาบันการศึกษา / ภูมิลำเนา (About Cards Modals)
+        function openAboutCardEdit(key) {
+            activeAboutCardKey = key;
+            const cardInfo = (key === 'uni') ? { title: portfolioData.education.uniTitle, desc: portfolioData.education.uniDesc, link: portfolioData.education.uniLink, media: portfolioData.education.uniMedia, mediaType: portfolioData.education.uniMediaType } :
+                             (key === 'sch') ? { title: portfolioData.education.schTitle, desc: portfolioData.education.schDesc, link: portfolioData.education.schLink, media: portfolioData.education.schMedia, mediaType: portfolioData.education.schMediaType } :
+                             { title: portfolioData.education.addrTitle, desc: portfolioData.education.addrDesc, link: portfolioData.education.addrLink, media: portfolioData.education.addrMedia, mediaType: portfolioData.education.addrMediaType };
+
+            document.getElementById('about-card-input-title').value = cardInfo.title;
+            document.getElementById('about-card-input-desc').value = cardInfo.desc;
+            document.getElementById('about-card-input-link').value = cardInfo.link || "";
+            document.getElementById('about-card-input-media-url').value = (cardInfo.mediaType !== 'icon') ? cardInfo.media : "";
+            document.getElementById('about-card-file-status').innerText = "ไม่ได้อัปโหลดไฟล์สื่อใหม่";
+            
+            tempCardMedia = cardInfo.media;
+            tempCardMediaType = cardInfo.mediaType;
+
+            document.getElementById('about-card-modal').classList.remove('hidden');
+        }
+
+        function processCardFile(input) {
+            const file = input.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    tempCardMedia = e.target.result;
+                    tempCardMediaType = file.type.startsWith('video/') ? 'video' : 'image';
+                    document.getElementById('about-card-file-status').innerText = `อัปโหลด: ${file.name}`;
+                }
+                reader.readAsDataURL(file);
             }
         }
 
-        // การจัดการโครงการ (Projects CRUD)
-        function addNewProject() {
-            activeProjectId = null;
-            document.getElementById('project-modal-title').innerText = "เพิ่มโครงการผลงานใหม่";
-            document.getElementById('project-input-title').value = "ชื่อผลงานใหม่";
-            document.getElementById('project-input-desc').value = "เขียนรายละเอียดและคุณสมบัติเด่นของโครงการสั้นๆ ตรงนี้...";
-            document.getElementById('project-input-tags').value = "HTML, JS";
-            document.getElementById('project-modal').classList.remove('hidden');
+        function closeAboutCardModal() {
+            document.getElementById('about-card-modal').classList.add('hidden');
         }
 
+        function saveAboutCardModal() {
+            const title = document.getElementById('about-card-input-title').value.trim();
+            const desc = document.getElementById('about-card-input-desc').value.trim();
+            const link = document.getElementById('about-card-input-link').value.trim();
+            const rawMediaUrl = document.getElementById('about-card-input-media-url').value.trim();
+
+            if (rawMediaUrl) {
+                tempCardMedia = rawMediaUrl;
+                tempCardMediaType = (rawMediaUrl.endsWith('.mp4') || rawMediaUrl.endsWith('.webm')) ? 'video' : 'image';
+            } else if (tempCardMedia === portfolioData.education[`${activeAboutCardKey}Media`] && portfolioData.education[`${activeAboutCardKey}MediaType`] === 'icon') {
+                // หากไม่มีลิงก์ปลายทางและไม่เลือกไฟล์ใหม่ ให้ตั้งกลับเป็นสัญรูปภาพเดิม
+                tempCardMediaType = 'icon';
+            }
+
+            portfolioData.education[`${activeAboutCardKey}Title`] = title;
+            portfolioData.education[`${activeAboutCardKey}Desc`] = desc;
+            portfolioData.education[`${activeAboutCardKey}Link`] = link;
+            portfolioData.education[`${activeAboutCardKey}Media`] = tempCardMedia;
+            portfolioData.education[`${activeAboutCardKey}MediaType`] = tempCardMediaType;
+
+            localStorage.setItem('atsanee_portfolio_data', JSON.stringify(portfolioData));
+            closeAboutCardModal();
+            renderAboutCards();
+            showToast("ปรับปรุงข้อมูลการศึกษาแล้ว");
+        }
+
+        // การจัดการโครงการ (Projects CRUD & Media Upload)
         function openProjectEdit(id) {
             activeProjectId = id;
             const proj = portfolioData.projects.find(p => p.id === id);
             if (!proj) return;
+
             document.getElementById('project-modal-title').innerText = "แก้ไขรายละเอียดโครงการ";
             document.getElementById('project-input-title').value = proj.title;
             document.getElementById('project-input-desc').value = proj.desc;
+            document.getElementById('project-input-link').value = proj.link || "";
             document.getElementById('project-input-tags').value = proj.tags.join(', ');
+            document.getElementById('project-input-media-url').value = proj.media;
+            document.getElementById('project-file-status').innerText = "ไม่ได้อัปโหลดไฟล์สื่อใหม่";
+
+            tempProjectMedia = proj.media;
+            tempProjectMediaType = proj.mediaType || "image";
+
             document.getElementById('project-modal').classList.remove('hidden');
+        }
+
+        function processProjectFile(input) {
+            const file = input.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    tempProjectMedia = e.target.result;
+                    tempProjectMediaType = file.type.startsWith('video/') ? 'video' : 'image';
+                    document.getElementById('project-file-status').innerText = `พร้อมอัปโหลด: ${file.name}`;
+                }
+                reader.readAsDataURL(file);
+            }
         }
 
         function closeProjectModal() {
@@ -1078,42 +1376,69 @@
         function saveProjectModal() {
             const title = document.getElementById('project-input-title').value.trim();
             const desc = document.getElementById('project-input-desc').value.trim();
+            const link = document.getElementById('project-input-link').value.trim();
             const tags = document.getElementById('project-input-tags').value.split(',').map(t => t.trim()).filter(t => t !== '');
+            const rawMediaUrl = document.getElementById('project-input-media-url').value.trim();
+
+            if (rawMediaUrl) {
+                tempProjectMedia = rawMediaUrl;
+                tempProjectMediaType = (rawMediaUrl.endsWith('.mp4') || rawMediaUrl.endsWith('.webm')) ? 'video' : 'image';
+            }
 
             if (activeProjectId) {
                 const projIndex = portfolioData.projects.findIndex(p => p.id === activeProjectId);
                 if (projIndex > -1) {
                     portfolioData.projects[projIndex].title = title;
                     portfolioData.projects[projIndex].desc = desc;
+                    portfolioData.projects[projIndex].link = link;
                     portfolioData.projects[projIndex].tags = tags;
+                    portfolioData.projects[projIndex].media = tempProjectMedia;
+                    portfolioData.projects[projIndex].mediaType = tempProjectMediaType;
                 }
             } else {
                 const newProj = {
                     id: 'p-' + Date.now(),
                     title: title,
                     desc: desc,
-                    tags: tags
+                    link: link,
+                    tags: tags,
+                    media: tempProjectMedia,
+                    mediaType: tempProjectMediaType
                 };
                 portfolioData.projects.push(newProj);
             }
             localStorage.setItem('atsanee_portfolio_data', JSON.stringify(portfolioData));
             closeProjectModal();
             renderProjects();
-            showToast("อัปเดตหน้าผลงานโครงการสำเร็จ");
+            showToast("บันทึกข้อมูลโครงการสำเร็จ");
         }
 
-        function deleteProject(id) {
-            portfolioData.projects = portfolioData.projects.filter(p => p.id !== id);
-            localStorage.setItem('atsanee_portfolio_data', JSON.stringify(portfolioData));
-            renderProjects();
-            showToast("ลบโครงการออกเรียบร้อย");
-        }
-
-        // แก้ไขกล่องเนื้อหาเพิ่มเติม (Custom Section)
+        // จัดการแก้ไขย่อหน้าข้อมูลเพิ่มเติมและวิดีโอมัลติมีเดียเสริม (Custom Section)
         function editCustomSectionHeader() {
             document.getElementById('custom-input-title').value = portfolioData.customSection.title;
             document.getElementById('custom-input-content').value = portfolioData.customSection.paragraphs.join('\n\n');
+            document.getElementById('custom-input-btn-text').value = portfolioData.customSection.btnText || "";
+            document.getElementById('custom-input-btn-url').value = portfolioData.customSection.btnUrl || "";
+            document.getElementById('custom-input-media-url').value = portfolioData.customSection.media;
+            document.getElementById('custom-file-status').innerText = "ไม่ได้อัปโหลดไฟล์สื่อใหม่";
+
+            tempCustomMedia = portfolioData.customSection.media;
+            tempCustomMediaType = portfolioData.customSection.mediaType || "image";
+
             document.getElementById('custom-section-modal').classList.remove('hidden');
+        }
+
+        function processCustomFile(input) {
+            const file = input.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    tempCustomMedia = e.target.result;
+                    tempCustomMediaType = file.type.startsWith('video/') ? 'video' : 'image';
+                    document.getElementById('custom-file-status').innerText = `พร้อมอัปโหลด: ${file.name}`;
+                }
+                reader.readAsDataURL(file);
+            }
         }
 
         function closeCustomSectionModal() {
@@ -1123,36 +1448,31 @@
         function saveCustomSectionModal() {
             const title = document.getElementById('custom-input-title').value.trim();
             const contentRaw = document.getElementById('custom-input-content').value;
-            // แยกย่อหน้าด้วยการแบ่งบรรทัดว่าง
+            const btnText = document.getElementById('custom-input-btn-text').value.trim();
+            const btnUrl = document.getElementById('custom-input-btn-url').value.trim();
+            const rawMediaUrl = document.getElementById('custom-input-media-url').value.trim();
+
             const paragraphs = contentRaw.split('\n').map(p => p.trim()).filter(p => p !== '');
-            
+
+            if (rawMediaUrl) {
+                tempCustomMedia = rawMediaUrl;
+                tempCustomMediaType = (rawMediaUrl.endsWith('.mp4') || rawMediaUrl.endsWith('.webm')) ? 'video' : 'image';
+            }
+
             portfolioData.customSection.title = title;
             portfolioData.customSection.paragraphs = paragraphs;
-            
-            localStorage.setItem('atsanee_portfolio_data', JSON.stringify(portfolioData));
-            initPortfolio(); // รีเรนเดอร์เนื้อหา
-            closeCustomSectionModal();
-            showToast("ปรับปรุงรายละเอียดเนื้อหาเพิ่มเติมเรียบร้อย");
-        }
+            portfolioData.customSection.btnText = btnText;
+            portfolioData.customSection.btnUrl = btnUrl;
+            portfolioData.customSection.media = tempCustomMedia;
+            portfolioData.customSection.mediaType = tempCustomMediaType;
 
-        // การอัปเดตภาพและฟลูท
-        function updateProfileImage(url) {
-            if (url.trim() !== '') {
-                portfolioData.profile.image = url.trim();
-                localStorage.setItem('atsanee_portfolio_data', JSON.stringify(portfolioData));
-                initPortfolio();
-                showToast("อัปเดตรูปภาพเรียบร้อย");
-            }
-        }
-
-        function resetToDefaultImage() {
-            portfolioData.profile.image = defaultPortfolioData.profile.image;
             localStorage.setItem('atsanee_portfolio_data', JSON.stringify(portfolioData));
             initPortfolio();
-            showToast("รีเซ็ตเป็นรูปภาพเริ่มต้นแล้ว");
+            closeCustomSectionModal();
+            showToast("ปรับปรุงย่อหน้าพร้อมสื่อประกอบเสริมสำเร็จ");
         }
 
-        // ฟังก์ชันระบบสลับสว่าง-มืด (Light/Dark Mode)
+        // ระบบสลับสว่าง-มืด (Light/Dark Mode)
         function toggleDarkMode() {
             const doc = document.documentElement;
             if (doc.classList.contains('dark')) {
@@ -1164,7 +1484,7 @@
             }
         }
 
-        // ฟังก์ชันระบบเปลี่ยนธีมสี (Theme Controller)
+        // ระบบเปลี่ยนธีมสี (Theme Controller)
         function setTheme(themeName) {
             document.body.removeAttribute('data-theme');
             if (themeName !== 'indigo') {
@@ -1172,11 +1492,9 @@
             }
             localStorage.setItem('atsanee_theme', themeName);
             
-            // อัปเดตสีตัวอักษรของโลโก้หัวเรื่องบางส่วนเพื่อความลงตัวแบบ Dynamic
             const logo = document.getElementById('logo-icon');
             logo.className = "w-10 h-10 rounded-lg bg-theme-primary flex items-center justify-center text-white font-bold text-xl shadow-md transition-all duration-300 transform hover:scale-105";
             
-            // ซ่อน dropdown หลังคลิกเลือก
             document.getElementById('theme-dropdown').classList.add('hidden');
         }
 
@@ -1185,7 +1503,6 @@
             dropdown.classList.toggle('hidden');
         }
 
-        // ปิดดรอปดาวน์เมื่อคลิกพื้นที่ด้านนอก
         window.addEventListener('click', (e) => {
             const container = document.getElementById('theme-dropdown-container');
             if (container && !container.contains(e.target)) {
@@ -1193,7 +1510,7 @@
             }
         });
 
-        // ฟังก์ชันควบคุมเมนูนำทางบนมือถือ
+        // ฟังก์ชันเมนูนำทางบนมือถือ
         function toggleMobileMenu() {
             const menu = document.getElementById('mobile-menu');
             const icon = document.getElementById('mobile-menu-icon');
@@ -1207,7 +1524,7 @@
             lucide.createIcons();
         }
 
-        // ข้อความแจ้งเตือนด้านข้าง (Toast Message Component)
+        // บล็อกข้อความแจ้งเตือน (Toast Notification)
         function showToast(message) {
             const toast = document.getElementById('custom-toast');
             const toastMsg = document.getElementById('toast-message');
@@ -1222,11 +1539,10 @@
             }, 3000);
         }
 
-        // ตรวจสอบฟอร์มการส่งข้อความจำลอง
+        // ฟอร์มส่งข้อความจำลอง
         function handleContactSubmit(event) {
             event.preventDefault();
-            // การติดต่อเป็นระบบ Interactive แบบสวมบทบาท (Simulation) เพื่อความสมจริงในการทดสอบหน้าสถานที่จริง
-            showToast("ส่งข้อความจำลองสำเร็จ! (บันทึกจำลองผลเสร็จสิ้น)");
+            showToast("จำลอง: ส่งสารร่วมงานเสร็จสิ้น!");
             event.target.reset();
         }
     </script>
