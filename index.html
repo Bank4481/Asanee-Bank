@@ -118,6 +118,17 @@
             --primary-light: #1e293b !important;
         }
 
+        /* Custom Keyframe Animations */
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-6px); }
+            75% { transform: translateX(6px); }
+        }
+
+        .animate-shake {
+            animation: shake 0.2s ease-in-out 2;
+        }
+
         /* Smooth custom transitions for theme switcher */
         * {
             transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
@@ -195,21 +206,21 @@
 
             <!-- Desktop Menu -->
             <nav class="hidden md:flex items-center gap-1 text-sm font-semibold text-slate-600 dark:text-slate-300">
-                <a href="#home" class="px-4 py-2 rounded-lg hover:text-primary hover:bg-primary-light transition-all">หน้าแรก</a>
-                <a href="#about" class="px-4 py-2 rounded-lg hover:text-primary hover:bg-primary-light transition-all">ประวัติส่วนตัว</a>
-                <a href="#education" class="px-4 py-2 rounded-lg hover:text-primary hover:bg-primary-light transition-all">ข้อมูลการศึกษา</a>
-                <a href="#experience" class="px-4 py-2 rounded-lg hover:text-primary hover:bg-primary-light transition-all">ทักษะและผลงาน</a>
-                <a href="#developer" class="px-4 py-2 bg-primary text-white hover:bg-primary-hover rounded-lg transition-all ml-2 shadow-sm shadow-primary/25">ข้อมูลผู้พัฒนา</a>
+                <a href="#home" id="nav-item-home" class="px-4 py-2 rounded-lg hover:text-primary hover:bg-primary-light transition-all">หน้าแรก</a>
+                <a href="#about" id="nav-item-about" class="px-4 py-2 rounded-lg hover:text-primary hover:bg-primary-light transition-all">ประวัติส่วนตัว</a>
+                <a href="#education" id="nav-item-education" class="px-4 py-2 rounded-lg hover:text-primary hover:bg-primary-light transition-all">ข้อมูลการศึกษา</a>
+                <a href="#experience" id="nav-item-experience" class="px-4 py-2 rounded-lg hover:text-primary hover:bg-primary-light transition-all">ทักษะและผลงาน</a>
+                <a href="#developer" id="nav-item-developer" class="px-4 py-2 bg-primary text-white hover:bg-primary-hover rounded-lg transition-all ml-2 shadow-sm shadow-primary/25">ข้อมูลผู้พัฒนา</a>
             </nav>
         </div>
 
         <!-- Mobile Dynamic Navigation Drawer -->
         <nav id="mobile-menu" class="hidden md:hidden bg-white dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700 px-4 py-3 flex flex-col gap-2">
-            <a href="#home" onclick="toggleMobileMenu()" class="block px-3 py-2 rounded-lg hover:bg-primary-light hover:text-primary font-medium text-sm">หน้าแรก</a>
-            <a href="#about" onclick="toggleMobileMenu()" class="block px-3 py-2 rounded-lg hover:bg-primary-light hover:text-primary font-medium text-sm">ประวัติส่วนตัว</a>
-            <a href="#education" onclick="toggleMobileMenu()" class="block px-3 py-2 rounded-lg hover:bg-primary-light hover:text-primary font-medium text-sm">ข้อมูลการศึกษา</a>
-            <a href="#experience" onclick="toggleMobileMenu()" class="block px-3 py-2 rounded-lg hover:bg-primary-light hover:text-primary font-medium text-sm">ทักษะและผลงาน</a>
-            <a href="#developer" onclick="toggleMobileMenu()" class="block px-3 py-2 bg-primary text-white text-center rounded-lg font-semibold text-sm">ข้อมูลผู้พัฒนา</a>
+            <a href="#home" id="mob-item-home" onclick="toggleMobileMenu()" class="block px-3 py-2 rounded-lg hover:bg-primary-light hover:text-primary font-medium text-sm">หน้าแรก</a>
+            <a href="#about" id="mob-item-about" onclick="toggleMobileMenu()" class="block px-3 py-2 rounded-lg hover:bg-primary-light hover:text-primary font-medium text-sm">ประวัติส่วนตัว</a>
+            <a href="#education" id="mob-item-education" onclick="toggleMobileMenu()" class="block px-3 py-2 rounded-lg hover:bg-primary-light hover:text-primary font-medium text-sm">ข้อมูลการศึกษา</a>
+            <a href="#experience" id="mob-item-experience" onclick="toggleMobileMenu()" class="block px-3 py-2 rounded-lg hover:bg-primary-light hover:text-primary font-medium text-sm">ทักษะและผลงาน</a>
+            <a href="#developer" id="mob-item-developer" onclick="toggleMobileMenu()" class="block px-3 py-2 bg-primary text-white text-center rounded-lg font-semibold text-sm">ข้อมูลผู้พัฒนา</a>
         </nav>
     </header>
 
@@ -275,7 +286,7 @@
         <section id="about" class="py-16 bg-white dark:bg-slate-800/40">
             <div class="max-w-7xl mx-auto px-4">
                 <div class="text-center max-w-2xl mx-auto mb-12">
-                    <h2 class="text-3xl font-extrabold text-slate-900 dark:text-white">ประวัติทั่วไป</h2>
+                    <h2 class="text-3xl font-extrabold text-slate-900 dark:text-white" id="sect-title-about">ประวัติทั่วไป</h2>
                     <div class="w-16 h-1 bg-primary mx-auto mt-3 rounded-full"></div>
                     <p class="text-slate-500 dark:text-slate-400 mt-3 text-sm">ข้อมูลพื้นฐาน แหล่งพำนักอาศัย และบทบาทที่พร้อมนำเสนอในงานวิชาการและการจัดแสดง</p>
                 </div>
@@ -350,7 +361,7 @@
         <section id="education" class="py-16 bg-slate-50 dark:bg-slate-900/60">
             <div class="max-w-7xl mx-auto px-4">
                 <div class="text-center max-w-2xl mx-auto mb-12">
-                    <h2 class="text-3xl font-extrabold text-slate-900 dark:text-white">ข้อมูลการศึกษา</h2>
+                    <h2 class="text-3xl font-extrabold text-slate-900 dark:text-white" id="sect-title-education">ข้อมูลการศึกษา</h2>
                     <div class="w-16 h-1 bg-primary mx-auto mt-3 rounded-full"></div>
                     <p class="text-slate-500 dark:text-slate-400 mt-3 text-sm">ภูมิหลังการเรียนรู้และการฝึกอบรมทางวิชาการ</p>
                 </div>
@@ -400,7 +411,7 @@
         <section id="experience" class="py-16 bg-white dark:bg-slate-800/40">
             <div class="max-w-7xl mx-auto px-4">
                 <div class="text-center max-w-2xl mx-auto mb-12">
-                    <h2 class="text-3xl font-extrabold text-slate-900 dark:text-white">ทักษะและความสามารถ</h2>
+                    <h2 class="text-3xl font-extrabold text-slate-900 dark:text-white" id="sect-title-experience">ทักษะและความสามารถ</h2>
                     <div class="w-16 h-1 bg-primary mx-auto mt-3 rounded-full"></div>
                     <p class="text-slate-500 dark:text-slate-400 mt-3 text-sm">การใช้งานเชิงเทคนิค ทักษะร่วมสมัย และสมรรถนะการจัดแสดงงานในที่สาธารณะ</p>
                 </div>
@@ -475,7 +486,7 @@
         <section id="developer" class="py-16 bg-slate-50 dark:bg-slate-900/60 border-t border-slate-200/50 dark:border-slate-800">
             <div class="max-w-7xl mx-auto px-4">
                 <div class="text-center max-w-2xl mx-auto mb-12">
-                    <h2 class="text-3xl font-extrabold text-slate-900 dark:text-white">ข้อมูลผู้พัฒนาเว็บไซต์</h2>
+                    <h2 class="text-3xl font-extrabold text-slate-900 dark:text-white" id="sect-title-developer">ข้อมูลผู้พัฒนาเว็บไซต์</h2>
                     <div class="w-16 h-1 bg-primary mx-auto mt-3 rounded-full"></div>
                     <p class="text-slate-500 dark:text-slate-400 mt-3 text-sm">รายละเอียดผู้เขียนโค้ดและเจ้าของข้อมูลโครงข่ายพอร์ตโฟลิโอนี้</p>
                 </div>
@@ -560,23 +571,64 @@
             </div>
             
             <div class="flex items-center gap-4 text-xs font-semibold text-slate-500">
-                <a href="#home" class="hover:text-white transition-colors">หน้าแรก</a>
+                <a href="#home" id="foot-item-home" class="hover:text-white transition-colors">หน้าแรก</a>
                 <span>&bull;</span>
-                <a href="#about" class="hover:text-white transition-colors">ประวัติ</a>
+                <a href="#about" id="foot-item-about" class="hover:text-white transition-colors">ประวัติ</a>
                 <span>&bull;</span>
-                <a href="#education" class="hover:text-white transition-colors">การศึกษา</a>
+                <a href="#education" id="foot-item-education" class="hover:text-white transition-colors">การศึกษา</a>
                 <span>&bull;</span>
-                <a href="#experience" class="hover:text-white transition-colors">ความสามารถ</a>
+                <a href="#experience" id="foot-item-experience" class="hover:text-white transition-colors">ความสามารถ</a>
             </div>
         </div>
     </footer>
 
-    <!-- Floating Admin Setting & Data Modifier Button -->
+    <!-- Floating Admin Setting Button -->
     <div class="fixed bottom-6 right-6 z-50">
-        <button onclick="toggleEditDrawer()" class="flex items-center gap-2 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-bold py-3 px-5 rounded-full shadow-2xl hover:shadow-emerald-500/20 active:scale-95 transition-all text-sm border border-emerald-400/20">
+        <button onclick="requestAccess()" class="flex items-center gap-2 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-bold py-3 px-5 rounded-full shadow-2xl hover:shadow-emerald-500/20 active:scale-95 transition-all text-sm border border-emerald-400/20">
             <i class="fa-solid fa-gears animate-spin" style="animation-duration: 6s;"></i>
             <span>⚙️ แก้ไขข้อมูลเว็บ</span>
         </button>
+    </div>
+
+    <!-- Custom Authentication Password Modal -->
+    <div id="auth-modal" class="fixed inset-0 bg-black/60 backdrop-blur-md z-[110] flex items-center justify-center p-4 hidden">
+        <div id="auth-card" class="bg-white dark:bg-slate-800 rounded-3xl max-w-md w-full shadow-2xl border border-slate-100 dark:border-slate-700 overflow-hidden transform transition-all duration-300 scale-95 opacity-0">
+            <!-- Modal Header -->
+            <div class="p-6 border-b border-slate-100 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-center space-y-2">
+                <div class="w-12 h-12 rounded-2xl bg-amber-500/10 text-amber-500 flex items-center justify-center mx-auto text-xl">
+                    <i class="fa-solid fa-shield-halved"></i>
+                </div>
+                <h3 class="font-bold text-lg text-slate-900 dark:text-white">กรุณายืนยันรหัสผ่านเพื่อแก้ไข</h3>
+                <p class="text-xs text-slate-500 dark:text-slate-400">ระบุรหัสผ่านเข้าถึงโหมดผู้พัฒนาเพื่อดำเนินการอัปเดตข้อมูล</p>
+            </div>
+            
+            <!-- Modal Body -->
+            <div class="p-6 space-y-4">
+                <div class="space-y-1.5">
+                    <label class="text-xs font-semibold text-slate-500 dark:text-slate-400 block">รหัสผ่านยืนยันตัวตน (Password):</label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400 dark:text-slate-500">
+                            <i class="fa-solid fa-lock"></i>
+                        </span>
+                        <input type="password" id="auth-password-input" placeholder="กรอกรหัสยืนยัน..." class="w-full text-sm pl-9 pr-10 py-3 rounded-xl border border-slate-300 dark:border-slate-600 bg-transparent text-slate-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-transparent focus:outline-none">
+                        <button onclick="togglePasswordVisibility()" class="absolute inset-y-0 right-0 flex items-center pr-3 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300">
+                            <i id="password-toggle-icon" class="fa-solid fa-eye"></i>
+                        </button>
+                    </div>
+                    <span id="auth-error-msg" class="text-xs text-rose-500 font-semibold block h-4 mt-1 opacity-0 transition-opacity">รหัสผ่านไม่ถูกต้อง กรุณาตรวจสอบรหัสอีกครั้ง</span>
+                </div>
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="p-6 border-t border-slate-100 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 flex gap-3">
+                <button onclick="closeAuthModal()" class="w-1/2 py-3 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 font-semibold text-sm transition-all">
+                    ยกเลิก
+                </button>
+                <button onclick="verifyAccessPassword()" class="w-1/2 py-3 bg-primary text-white hover:bg-primary-hover font-semibold text-sm rounded-xl shadow-lg shadow-primary/25 transition-all">
+                    ยืนยันตัวตน
+                </button>
+            </div>
+        </div>
     </div>
 
     <!-- Right Side Sliding Drawer for Content Editing -->
@@ -620,7 +672,33 @@
                 <div class="space-y-1">
                     <label class="text-xs font-semibold text-slate-500 dark:text-slate-400 block">รหัส ID รูปภาพจาก Google Drive:</label>
                     <input type="text" id="edit-driveImageId" oninput="updateLiveContent()" class="w-full text-sm p-2.5 rounded-lg border border-slate-300 dark:border-slate-600 bg-transparent text-slate-900 dark:text-white focus:ring-2 focus:ring-primary">
-                    <span class="text-[10px] text-slate-400">ตัวอย่าง: 1ZBZ5HGKv55aZeAZHi8EPz-1IgGwlndGD</span>
+                    <span class="text-[10px] text-slate-400 font-medium">ตัวอย่าง: 1ZBZ5HGKv55aZeAZHi8EPz-1IgGwlndGD</span>
+                </div>
+            </div>
+
+            <!-- Navigation Menus Form -->
+            <div class="space-y-4 pt-2">
+                <h4 class="font-semibold text-xs text-slate-400 uppercase tracking-wider border-b border-slate-100 dark:border-slate-800 pb-1">แก้ไขชื่อเมนูนำทาง</h4>
+                
+                <div class="space-y-1">
+                    <label class="text-xs font-semibold text-slate-500 dark:text-slate-400 block">เมนู 1 (หน้าแรก):</label>
+                    <input type="text" id="edit-menuHome" oninput="updateLiveContent()" class="w-full text-sm p-2.5 rounded-lg border border-slate-300 dark:border-slate-600 bg-transparent text-slate-900 dark:text-white focus:ring-2 focus:ring-primary">
+                </div>
+                <div class="space-y-1">
+                    <label class="text-xs font-semibold text-slate-500 dark:text-slate-400 block">เมนู 2 (ประวัติส่วนตัว):</label>
+                    <input type="text" id="edit-menuAbout" oninput="updateLiveContent()" class="w-full text-sm p-2.5 rounded-lg border border-slate-300 dark:border-slate-600 bg-transparent text-slate-900 dark:text-white focus:ring-2 focus:ring-primary">
+                </div>
+                <div class="space-y-1">
+                    <label class="text-xs font-semibold text-slate-500 dark:text-slate-400 block">เมนู 3 (ข้อมูลการศึกษา):</label>
+                    <input type="text" id="edit-menuEducation" oninput="updateLiveContent()" class="w-full text-sm p-2.5 rounded-lg border border-slate-300 dark:border-slate-600 bg-transparent text-slate-900 dark:text-white focus:ring-2 focus:ring-primary">
+                </div>
+                <div class="space-y-1">
+                    <label class="text-xs font-semibold text-slate-500 dark:text-slate-400 block">เมนู 4 (ทักษะและผลงาน):</label>
+                    <input type="text" id="edit-menuExperience" oninput="updateLiveContent()" class="w-full text-sm p-2.5 rounded-lg border border-slate-300 dark:border-slate-600 bg-transparent text-slate-900 dark:text-white focus:ring-2 focus:ring-primary">
+                </div>
+                <div class="space-y-1">
+                    <label class="text-xs font-semibold text-slate-500 dark:text-slate-400 block">เมนู 5 (ข้อมูลผู้พัฒนา):</label>
+                    <input type="text" id="edit-menuDeveloper" oninput="updateLiveContent()" class="w-full text-sm p-2.5 rounded-lg border border-slate-300 dark:border-slate-600 bg-transparent text-slate-900 dark:text-white focus:ring-2 focus:ring-primary">
                 </div>
             </div>
 
@@ -680,7 +758,7 @@
     </div>
 
     <!-- Background dim overlay when drawer is open -->
-    <div id="drawer-overlay" onclick="toggleEditDrawer()" class="fixed inset-0 bg-black/40 backdrop-blur-sm z-[90] hidden transition-opacity duration-300"></div>
+    <div id="drawer-overlay" onclick="handleOverlayClick()" class="fixed inset-0 bg-black/40 backdrop-blur-sm z-[90] hidden transition-opacity duration-300"></div>
 
     <!-- Custom Success Toast Notification -->
     <div id="toast" class="fixed bottom-24 right-6 bg-slate-900 dark:bg-white text-white dark:text-slate-900 px-4 py-3 rounded-xl shadow-2xl flex items-center gap-2 transform translate-y-20 opacity-0 transition-all duration-300 z-50 pointer-events-none text-xs font-bold border border-slate-800 dark:border-slate-100">
@@ -704,8 +782,16 @@
             "skill2Title": "การนำเสนอและสื่อสารสารสนเทศ",
             "skill2Desc": "การจัดวางโครงสร้างสไลด์ เทคนิคการจัดเรียงพอร์ตโฟลิโอ และการอ้างอิงข้อมูลอย่างเป็นระเบียบที่เหมาะกับการเสนองานในสถานที่ประชุมภายนอก",
             "skill3Title": "โครงสร้างเว็บประยุกต์แบบหลายธีม",
-            "skill3Desc": "การสร้างตัวเลือกตัวแปรสีสไตล์ CSS Variables ที่ให้สลับเปลี่ยนอารมณ์ของสีได้อย่างทันทีถึง 10 รูปแบบสี พร้อมการทำงานสลับดาร์กโหมด"
+            "skill3Desc": "การสร้างตัวเลือกตัวแปรสีสไตล์ CSS Variables ที่ให้สลับเปลี่ยนอารมณ์ของสีได้อย่างทันทีถึง 10 รูปแบบสี พร้อมการทำงานสลับดาร์กโหมด",
+            "menuHome": "หน้าแรก",
+            "menuAbout": "ประวัติส่วนตัว",
+            "menuEducation": "ข้อมูลการศึกษา",
+            "menuExperience": "ทักษะและผลงาน",
+            "menuDeveloper": "ข้อมูลผู้พัฒนา"
         };
+
+        // Verification State
+        let isAuthorized = false;
 
         // Theme switcher utility
         function changeTheme(themeClassName) {
@@ -765,6 +851,96 @@
             }
         }
 
+        // Entrypoint logic when clicking "Edit Web Data"
+        function requestAccess() {
+            if (isAuthorized) {
+                // If already verified during this session, open edit drawer directly
+                toggleEditDrawer();
+            } else {
+                openAuthModal();
+            }
+        }
+
+        // Open Auth Modal with smooth animations
+        function openAuthModal() {
+            const modal = document.getElementById('auth-modal');
+            const card = document.getElementById('auth-card');
+            const input = document.getElementById('auth-password-input');
+            const errorMsg = document.getElementById('auth-error-msg');
+            
+            // Clear prior states
+            input.value = "";
+            errorMsg.classList.add('opacity-0');
+            card.classList.remove('animate-shake');
+
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                card.classList.remove('scale-95', 'opacity-0');
+                card.classList.add('scale-100', 'opacity-100');
+                input.focus();
+            }, 50);
+        }
+
+        // Close Auth Modal
+        function closeAuthModal() {
+            const modal = document.getElementById('auth-modal');
+            const card = document.getElementById('auth-card');
+            
+            card.classList.remove('scale-100', 'opacity-100');
+            card.classList.add('scale-95', 'opacity-0');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 300);
+        }
+
+        // Toggle visibility of input password
+        function togglePasswordVisibility() {
+            const input = document.getElementById('auth-password-input');
+            const icon = document.getElementById('password-toggle-icon');
+            if (input.type === "password") {
+                input.type = "text";
+                icon.className = "fa-solid fa-eye-slash";
+            } else {
+                input.type = "password";
+                icon.className = "fa-solid fa-eye";
+            }
+        }
+
+        // Verify input security password
+        function verifyAccessPassword() {
+            const input = document.getElementById('auth-password-input');
+            const errorMsg = document.getElementById('auth-error-msg');
+            const card = document.getElementById('auth-card');
+
+            if (input.value === "Bank4481") {
+                isAuthorized = true;
+                errorMsg.classList.add('opacity-0');
+                closeAuthModal();
+                
+                // Open the edit drawer with slight delay for pleasant timing
+                setTimeout(() => {
+                    toggleEditDrawer();
+                    showToast("ยืนยันตัวตนสำเร็จ! เปิดใช้งานแผงแก้ไขข้อมูลเรียบร้อย");
+                }, 350);
+            } else {
+                // Shake card and show dynamic error text
+                card.classList.remove('animate-shake');
+                void card.offsetWidth; // Trigger reflow to restart animation
+                card.classList.add('animate-shake');
+                
+                errorMsg.classList.remove('opacity-0');
+                input.focus();
+                input.select();
+            }
+        }
+
+        // Keyboard navigation helper (Enter to submit pass)
+        document.getElementById('auth-password-input').addEventListener('keydown', (event) => {
+            if (event.key === 'Enter') {
+                verifyAccessPassword();
+            }
+        });
+
         // Open/Close Settings Edit Drawer
         function toggleEditDrawer() {
             const drawer = document.getElementById('edit-drawer');
@@ -778,6 +954,14 @@
             } else {
                 drawer.classList.add('translate-x-full');
                 overlay.classList.add('hidden');
+            }
+        }
+
+        // Overlay backdrop dispatcher
+        function handleOverlayClick() {
+            const drawer = document.getElementById('edit-drawer');
+            if (!drawer.classList.contains('translate-x-full')) {
+                toggleEditDrawer();
             }
         }
 
@@ -797,6 +981,13 @@
             document.getElementById('edit-skill2Desc').value = window.portfolioData.skill2Desc;
             document.getElementById('edit-skill3Title').value = window.portfolioData.skill3Title;
             document.getElementById('edit-skill3Desc').value = window.portfolioData.skill3Desc;
+            
+            // Populate dynamic menu configurations
+            document.getElementById('edit-menuHome').value = window.portfolioData.menuHome;
+            document.getElementById('edit-menuAbout').value = window.portfolioData.menuAbout;
+            document.getElementById('edit-menuEducation').value = window.portfolioData.menuEducation;
+            document.getElementById('edit-menuExperience').value = window.portfolioData.menuExperience;
+            document.getElementById('edit-menuDeveloper').value = window.portfolioData.menuDeveloper;
         }
 
         // Update web display values from input elements live
@@ -816,6 +1007,13 @@
             window.portfolioData.skill2Desc = document.getElementById('edit-skill2Desc').value;
             window.portfolioData.skill3Title = document.getElementById('edit-skill3Title').value;
             window.portfolioData.skill3Desc = document.getElementById('edit-skill3Desc').value;
+            
+            // Read dynamic menus
+            window.portfolioData.menuHome = document.getElementById('edit-menuHome').value;
+            window.portfolioData.menuAbout = document.getElementById('edit-menuAbout').value;
+            window.portfolioData.menuEducation = document.getElementById('edit-menuEducation').value;
+            window.portfolioData.menuExperience = document.getElementById('edit-menuExperience').value;
+            window.portfolioData.menuDeveloper = document.getElementById('edit-menuDeveloper').value;
 
             // Render live onto elements
             document.getElementById('lbl-brand-name').innerText = window.portfolioData.fullName;
@@ -845,6 +1043,32 @@
             document.getElementById('lbl-skill2-desc').innerText = window.portfolioData.skill2Desc;
             document.getElementById('lbl-skill3-title').innerText = window.portfolioData.skill3Title;
             document.getElementById('lbl-skill3-desc').innerText = window.portfolioData.skill3Desc;
+
+            // Update Menu navigation items dynamically
+            document.getElementById('nav-item-home').innerText = window.portfolioData.menuHome;
+            document.getElementById('nav-item-about').innerText = window.portfolioData.menuAbout;
+            document.getElementById('nav-item-education').innerText = window.portfolioData.menuEducation;
+            document.getElementById('nav-item-experience').innerText = window.portfolioData.menuExperience;
+            document.getElementById('nav-item-developer').innerText = window.portfolioData.menuDeveloper;
+
+            // Mobile Navigation Items
+            document.getElementById('mob-item-home').innerText = window.portfolioData.menuHome;
+            document.getElementById('mob-item-about').innerText = window.portfolioData.menuAbout;
+            document.getElementById('mob-item-education').innerText = window.portfolioData.menuEducation;
+            document.getElementById('mob-item-experience').innerText = window.portfolioData.menuExperience;
+            document.getElementById('mob-item-developer').innerText = window.portfolioData.menuDeveloper;
+
+            // Footer links
+            document.getElementById('foot-item-home').innerText = window.portfolioData.menuHome;
+            document.getElementById('foot-item-about').innerText = window.portfolioData.menuAbout;
+            document.getElementById('foot-item-education').innerText = window.portfolioData.menuEducation;
+            document.getElementById('foot-item-experience').innerText = window.portfolioData.menuExperience;
+
+            // Section main header titles
+            document.getElementById('sect-title-about').innerText = window.portfolioData.menuAbout;
+            document.getElementById('sect-title-education').innerText = window.portfolioData.menuEducation;
+            document.getElementById('sect-title-experience').innerText = window.portfolioData.menuExperience;
+            document.getElementById('sect-title-developer').innerText = window.portfolioData.menuDeveloper;
 
             // Update Drive dynamic links
             const driveUrl = "https://drive.google.com/file/d/" + window.portfolioData.driveImageId + "/view?usp=drive_link";
